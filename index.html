@@ -97,13 +97,112 @@
     .panel.active { display: block; }
 
     .more-link { font-size: 12px; color: #c2410c; margin-top: 8px; cursor: pointer; }
+
+    /* ── SCORECARD STYLES ──────────────────────────────────────────────────── */
+
+    /* Sub-navigation */
+    .sub-tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+    .sub-tab { padding: 7px 16px; border-radius: 20px; border: 1px solid #d1d5db; cursor: pointer;
+               font-size: 12px; font-weight: 600; background: white; color: #6b7280; transition: all 0.15s; }
+    .sub-tab:hover { border-color: #15803d; color: #15803d; }
+    .sub-tab.active { background: #15803d; color: white; border-color: #15803d; }
+
+    /* Scorecard hero */
+    .sc-hero { background: linear-gradient(135deg, #14532d 0%, #166534 60%, #15803d 100%);
+               border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; color: white; }
+    .sc-verse { font-style: italic; font-size: 14px; line-height: 1.7; opacity: 0.95; }
+    .sc-ref { font-size: 12px; opacity: 0.65; margin-top: 6px; }
+
+    /* Section labels within cards */
+    .sc-section { font-weight: 700; font-size: 13px; color: #374151; margin: 18px 0 8px; }
+    .sc-section:first-child { margin-top: 0; }
+
+    /* Textarea */
+    .sc-textarea { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #d1d5db;
+                   font-size: 14px; min-height: 80px; font-family: inherit; resize: vertical; }
+
+    /* Intentions */
+    .intention-row { display: flex; align-items: center; gap: 8px; padding: 7px 10px;
+                     background: #f0fdf4; border-radius: 6px; margin-bottom: 4px; }
+    .intention-text { flex: 1; font-size: 13px; color: #166534; }
+    .btn-icon { background: none; border: none; cursor: pointer; color: #9ca3af; font-size: 13px; padding: 2px 4px; line-height: 1; }
+    .btn-icon:hover { color: #ef4444; }
+    .no-intentions { font-size: 13px; color: #9ca3af; font-style: italic; padding: 4px 0 8px; }
+
+    /* Habits grid */
+    .habit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
+    .habit-item { display: flex; align-items: center; gap: 8px; background: #f8fafc;
+                  border-radius: 8px; padding: 8px 12px; border: 1px solid #f1f5f9; }
+    .habit-icon { font-size: 17px; flex-shrink: 0; }
+    .habit-label { flex: 1; font-size: 13px; color: #374151; }
+    .habit-days { width: 46px; padding: 4px 6px; border-radius: 6px; border: 1px solid #d1d5db;
+                  font-size: 14px; font-weight: 700; text-align: center; color: #15803d; }
+    .habit-unit { font-size: 11px; color: #9ca3af; }
+
+    /* Fruit dots */
+    .fruit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+    .fruit-row { display: flex; align-items: center; gap: 10px; background: #f8fafc;
+                 border-radius: 8px; padding: 8px 12px; border: 1px solid #f1f5f9; }
+    .fruit-label-text { width: 88px; font-size: 13px; color: #374151; font-weight: 500; flex-shrink: 0; }
+    .fruit-dots { display: flex; gap: 5px; }
+    .dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #d1d5db;
+           background: white; cursor: pointer; transition: all 0.15s; flex-shrink: 0; }
+    .dot.filled { background: #15803d; border-color: #15803d; }
+    .dot:hover { border-color: #15803d; }
+
+    /* Abiding slider */
+    .abiding-row { display: flex; align-items: center; gap: 12px; padding: 4px 0; }
+    .abiding-slider { flex: 1; accent-color: #15803d; height: 6px; cursor: pointer; }
+    .abiding-low, .abiding-high { font-size: 11px; color: #9ca3af; white-space: nowrap; }
+    .abiding-display { font-size: 22px; font-weight: 800; color: #15803d; min-width: 48px; text-align: right; }
+    .abiding-descriptor { font-size: 13px; color: #6b7280; font-style: italic; margin-top: 4px; }
+
+    /* Save toast */
+    .save-toast { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px;
+                  padding: 10px 16px; margin-bottom: 12px; color: #166534; font-weight: 600; font-size: 13px; }
+
+    /* Editing-past banner */
+    .past-edit-banner { background: #fef9c3; border: 1px solid #fbbf24; border-radius: 8px;
+                        padding: 10px 16px; margin-bottom: 12px; display: flex; align-items: center;
+                        justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .past-edit-label { font-weight: 600; font-size: 13px; color: #92400e; }
+
+    /* Pruning cards */
+    .pruning-card { border-radius: 8px; padding: 14px; margin-bottom: 10px; border: 1px solid #e5e7eb; }
+    .pruning-active { border-color: #fca5a5; background: #fff7f7; }
+    .pruning-growing { border-color: #fcd34d; background: #fffbeb; }
+    .pruning-pruned { border-color: #86efac; background: #f0fdf4; }
+    .pruning-top { display: flex; justify-content: space-between; align-items: flex-start;
+                   gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+    .pruning-area-text { font-weight: 600; font-size: 14px; color: #1e293b; }
+    .pruning-date-text { font-size: 11px; color: #9ca3af; white-space: nowrap; }
+    .pruning-note-text { font-size: 13px; color: #6b7280; background: #f9fafb; border-radius: 6px;
+                         padding: 6px 10px; margin-bottom: 10px; }
+    .pruning-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .btn-sm { padding: 5px 12px; font-size: 11px; }
+
+    /* Progress bars for fruit */
+    .fruit-prog-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .fruit-prog-label { width: 90px; font-size: 12px; color: #374151; font-weight: 500; }
+    .fruit-prog-track { flex: 1; background: #f1f5f9; border-radius: 4px; height: 14px; }
+    .fruit-prog-fill { background: #15803d; height: 100%; border-radius: 4px; transition: width 0.4s; }
+    .fruit-prog-val { width: 32px; text-align: right; font-size: 12px; font-weight: 600; color: #15803d; }
+
+    /* Correlation bars */
+    .corr-block { margin-bottom: 14px; }
+    .corr-habit-label { font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 4px; }
+    .corr-row { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+    .corr-type { width: 64px; font-size: 10px; color: #6b7280; text-align: right; }
+    .corr-track { flex: 1; background: #f1f5f9; border-radius: 3px; height: 16px; }
+    .corr-val { width: 36px; text-align: right; font-size: 11px; font-weight: 700; }
+    .corr-diff { font-size: 12px; font-weight: 700; min-width: 44px; text-align: right; }
   </style>
 </head>
 <body>
 <div class="container">
 
   <div class="header">
-    <h1>⛪ Church Attendance</h1>
+    <h1>&#9962; Church Attendance</h1>
     <p id="header-sub">Pastoral Care Dashboard · Loading...</p>
   </div>
 
@@ -114,11 +213,12 @@
   <div id="panel-visitors" class="panel"></div>
   <div id="panel-followup" class="panel"></div>
   <div id="panel-history" class="panel"></div>
+  <div id="panel-scorecard" class="panel"></div>
 
 </div>
 
 <script>
-// ─── DATA ───────────────────────────────────────────────────────────────────
+// ─── ATTENDANCE DATA ─────────────────────────────────────────────────────────
 
 const SERVICE_DATES = ["2026-04-06","2026-04-13","2026-04-20","2026-04-27","2026-05-04"];
 const TODAY = "2026-05-08";
@@ -153,26 +253,151 @@ MEMBERS.forEach(m => {
     }
   });
 });
-// Make 17-20 absent for last few weeks
 [17,18,19,20].forEach(mid => {
   attendance = attendance.filter(a => !(a.personId === mid && a.date > "2026-04-13"));
 });
 
-// ─── HELPERS ────────────────────────────────────────────────────────────────
+// ─── SCORECARD DATA ──────────────────────────────────────────────────────────
+
+const HABITS = [
+  {id:"prayer",     label:"Prayer",     icon:"&#128591;"},
+  {id:"scripture",  label:"Scripture",  icon:"&#128218;"},
+  {id:"worship",    label:"Worship",    icon:"&#127925;"},
+  {id:"fellowship", label:"Fellowship", icon:"&#129309;"},
+  {id:"service",    label:"Service",    icon:"&#10084;"},
+  {id:"fasting",    label:"Fasting",    icon:"&#127807;"},
+  {id:"journaling", label:"Journaling", icon:"&#128221;"}
+];
+
+const FRUITS = [
+  {id:"love",        label:"Love"},
+  {id:"joy",         label:"Joy"},
+  {id:"peace",       label:"Peace"},
+  {id:"patience",    label:"Patience"},
+  {id:"kindness",    label:"Kindness"},
+  {id:"goodness",    label:"Goodness"},
+  {id:"faithfulness",label:"Faithfulness"},
+  {id:"gentleness",  label:"Gentleness"},
+  {id:"selfControl", label:"Self-Control"}
+];
+
+const PRUNING_CATS = ["Pride","Fear","Distraction","Unforgiveness","Comparison","Worry","Bitterness","Control","Lust","Anger","Other"];
+
+let weeklyEntries = [];
+let pruningAreas  = [];
+let nextWid = 1;
+let nextPid = 1;
+let pendingEntry  = null;
+let editingWeekDate = null;
+let scorecardView = "thisweek";
+let savedMessage  = null;
+
+// ── Seed: 8 weeks of entries ──────────────────────────────────────────────────
+(function seedScorecard() {
+  var weeks = [
+    {
+      weekDate:"2026-03-08", abidingScore:4,
+      intentions:["Pray each morning","Read one Psalm daily"],
+      habits:{prayer:3,scripture:2,worship:1,fellowship:1,service:0,fasting:0,journaling:1},
+      fruits:{love:3,joy:2,peace:2,patience:2,kindness:3,goodness:2,faithfulness:2,gentleness:2,selfControl:2},
+      reflection:"Felt disconnected this week. Prayer felt routine rather than alive.",
+      pruningNote:"I notice I'm quick to check my phone instead of spending quiet time."
+    },
+    {
+      weekDate:"2026-03-15", abidingScore:5,
+      intentions:["Pray each morning","Read John 15 this week","Reach out to someone"],
+      habits:{prayer:4,scripture:3,worship:2,fellowship:2,service:1,fasting:0,journaling:2},
+      fruits:{love:3,joy:3,peace:3,patience:2,kindness:3,goodness:3,faithfulness:3,gentleness:2,selfControl:3},
+      reflection:"Reading John 15 is stirring something. More hope this week than last.",
+      pruningNote:"Still struggling with comparison — noticing it more clearly now."
+    },
+    {
+      weekDate:"2026-03-22", abidingScore:6,
+      intentions:["30 min of prayer daily","Scripture and journaling before work","Fast on Wednesday"],
+      habits:{prayer:5,scripture:4,worship:2,fellowship:3,service:2,fasting:1,journaling:3},
+      fruits:{love:4,joy:3,peace:3,patience:3,kindness:4,goodness:3,faithfulness:3,gentleness:3,selfControl:3},
+      reflection:"Fasting Wednesday was hard but meaningful. Felt more aware of the Spirit's presence.",
+      pruningNote:""
+    },
+    {
+      weekDate:"2026-03-29", abidingScore:4,
+      intentions:["Stay consistent with morning prayer"],
+      habits:{prayer:3,scripture:2,worship:1,fellowship:1,service:1,fasting:0,journaling:1},
+      fruits:{love:3,joy:2,peace:2,patience:2,kindness:3,goodness:2,faithfulness:2,gentleness:2,selfControl:2},
+      reflection:"Busy week — fell back into old patterns. Grace, not condemnation.",
+      pruningNote:"Work stress is crowding out quiet time. Need to guard the morning."
+    },
+    {
+      weekDate:"2026-04-05", abidingScore:8,
+      intentions:["Make this Holy Week meaningful","Attend all Easter services","Write out gratitude each day"],
+      habits:{prayer:6,scripture:5,worship:3,fellowship:3,service:2,fasting:2,journaling:4},
+      fruits:{love:4,joy:4,peace:4,patience:4,kindness:4,goodness:4,faithfulness:4,gentleness:4,selfControl:4},
+      reflection:"Holy Week was transformative. Felt so connected at the Good Friday service. Resurrection joy is real!",
+      pruningNote:""
+    },
+    {
+      weekDate:"2026-04-12", abidingScore:9,
+      intentions:["Carry Easter joy forward","Daily scripture + prayer","Serve at food pantry Saturday"],
+      habits:{prayer:7,scripture:6,worship:3,fellowship:4,service:3,fasting:1,journaling:5},
+      fruits:{love:5,joy:5,peace:4,patience:4,kindness:5,goodness:4,faithfulness:5,gentleness:4,selfControl:4},
+      reflection:"Best week in months. Serving at the food pantry shifted my perspective. Love feels less like effort.",
+      pruningNote:"Even in a good week, noticed pride creeping in about 'how well I'm doing.' Keep me humble, Lord."
+    },
+    {
+      weekDate:"2026-04-19", abidingScore:7,
+      intentions:["Maintain rhythm from last week","Write one person a note of encouragement"],
+      habits:{prayer:5,scripture:4,worship:2,fellowship:2,service:2,fasting:1,journaling:3},
+      fruits:{love:4,joy:4,peace:4,patience:3,kindness:4,goodness:3,faithfulness:4,gentleness:3,selfControl:3},
+      reflection:"Couldn't sustain the full intensity of Easter week, but found a good sustainable rhythm.",
+      pruningNote:""
+    },
+    {
+      weekDate:"2026-04-26", abidingScore:8,
+      intentions:["Prayer walk Tuesday morning","Read John 15 again with fresh eyes","Check in on the Bridges family"],
+      habits:{prayer:6,scripture:5,worship:3,fellowship:3,service:3,fasting:2,journaling:4},
+      fruits:{love:4,joy:4,peace:4,patience:4,kindness:4,goodness:4,faithfulness:4,gentleness:4,selfControl:4},
+      reflection:"The prayer walk was wonderful — praying outdoors opens me up. Growth feels sustainable now.",
+      pruningNote:"Still noticing anxiety when plans don't go as expected. Practicing surrender."
+    }
+  ];
+  weeks.forEach(function(w) { w.id = nextWid++; weeklyEntries.push(w); });
+
+  pruningAreas = [
+    {
+      id:nextPid++, area:"Mindless phone scrolling replacing quiet time",
+      category:"Distraction", dateAdded:"2026-03-15", status:"growing",
+      notes:"Moved phone out of bedroom. Using first 15 min for prayer instead."
+    },
+    {
+      id:nextPid++, area:"Comparing my spiritual life to others' outward expressions",
+      category:"Comparison", dateAdded:"2026-04-05", status:"active",
+      notes:"Noticing this especially on Sunday mornings."
+    },
+    {
+      id:nextPid++, area:"Anxious striving over outcomes I can't control",
+      category:"Worry", dateAdded:"2026-03-29", status:"active",
+      notes:"Practicing Philippians 4:6-7 as a daily response."
+    },
+    {
+      id:nextPid++, area:"Residual bitterness toward a family member",
+      category:"Unforgiveness", dateAdded:"2026-03-08", status:"pruned",
+      notes:"Had a breakthrough conversation. Forgiveness given and received. God is so faithful."
+    }
+  ];
+})();
+
+// ─── ATTENDANCE HELPERS ──────────────────────────────────────────────────────
 
 function weeksBetween(d1, d2) {
   return Math.floor(Math.abs(new Date(d2) - new Date(d1)) / (7*24*60*60*1000));
 }
-
 function lastSeen(memberId) {
   const dates = attendance.filter(a => a.personId === memberId).map(a => a.date).sort().reverse();
   return dates[0] || null;
 }
-
 function attendCount(memberId) {
   return attendance.filter(a => a.personId === memberId).length;
 }
-
 function followUpList() {
   return MEMBERS.map(m => {
     const ls = lastSeen(m.id);
@@ -180,37 +405,117 @@ function followUpList() {
     return {...m, lastSeen: ls, weeksSince: weeks};
   }).filter(m => m.weeksSince >= FOLLOW_UP_WEEKS).sort((a,b) => b.weeksSince - a.weeksSince);
 }
-
 function badge(label, cls) {
-  return `<span class="b b-${cls}">${label}</span>`;
+  return '<span class="b b-' + cls + '">' + label + '</span>';
 }
-
 function statusBadge(weeks) {
   if (weeks >= 6) return badge("Urgent","red");
   if (weeks >= 3) return badge("Follow Up","yellow");
   return badge("Active","green");
 }
-
-function serviceCount(date) {
-  return attendance.filter(a => a.date === date).length;
-}
-
-function visitorCount(date) {
-  return visitors.filter(v => v.date === date).length;
-}
-
+function serviceCount(date) { return attendance.filter(a => a.date === date).length; }
+function visitorCount(date) { return visitors.filter(v => v.date === date).length; }
 function avgAttendance() {
   return Math.round(SERVICE_DATES.reduce((s,d) => s + serviceCount(d), 0) / SERVICE_DATES.length);
 }
 
-// ─── TABS ───────────────────────────────────────────────────────────────────
+// ─── SCORECARD HELPERS ───────────────────────────────────────────────────────
+
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function weekStart(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  d.setDate(d.getDate() - d.getDay());
+  return d.toISOString().slice(0,10);
+}
+
+function formatWeekDate(dateStr) {
+  const p = dateStr.split('-');
+  const d = new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2]));
+  return d.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+}
+
+function abidingLabel(score) {
+  const s = parseInt(score);
+  if (s <= 2) return 'Feeling dry and distant — cry out to Him';
+  if (s <= 4) return 'Seeking but struggling to connect';
+  if (s <= 6) return 'Present and engaged with the Vine';
+  if (s <= 8) return 'Fruitful rhythms of grace';
+  return 'Deeply abiding — remaining in His love';
+}
+
+function abidingColor(score) {
+  const s = parseInt(score);
+  if (s <= 3) return '#dc2626';
+  if (s <= 5) return '#d97706';
+  if (s <= 7) return '#0f766e';
+  return '#15803d';
+}
+
+function fruitsRadarSVG(fruitsData, size) {
+  var cx = size/2, cy = size/2;
+  var maxR = size/2 - 44;
+  var n = FRUITS.length;
+  var step = (2 * Math.PI) / n;
+  var start = -Math.PI / 2;
+  var grid = '', axes = '', labels = '', pts = [];
+
+  for (var lv = 1; lv <= 5; lv++) {
+    var r = (lv/5) * maxR;
+    var gpts = FRUITS.map(function(_, i) {
+      var a = start + i * step;
+      return (cx + r*Math.cos(a)).toFixed(1) + ',' + (cy + r*Math.sin(a)).toFixed(1);
+    }).join(' ');
+    var fillColor = lv === 5 ? 'none' : 'none';
+    grid += '<polygon points="' + gpts + '" fill="' + fillColor + '" stroke="#e5e7eb" stroke-width="1"/>';
+  }
+
+  FRUITS.forEach(function(f, i) {
+    var angle = start + i * step;
+    var score = Math.max(0.15, (fruitsData && fruitsData[f.id]) || 1);
+    var r = (score/5) * maxR;
+    var axX = (cx + maxR * Math.cos(angle)).toFixed(1);
+    var axY = (cy + maxR * Math.sin(angle)).toFixed(1);
+    var px  = (cx + r * Math.cos(angle)).toFixed(1);
+    var py  = (cy + r * Math.sin(angle)).toFixed(1);
+    var lx  = (cx + (maxR + 30) * Math.cos(angle)).toFixed(1);
+    var ly  = (cy + (maxR + 30) * Math.sin(angle)).toFixed(1);
+
+    axes += '<line x1="' + cx + '" y1="' + cy + '" x2="' + axX + '" y2="' + axY + '" stroke="#e2e8f0" stroke-width="1.5"/>';
+    pts.push(px + ',' + py);
+    labels += '<text x="' + lx + '" y="' + ly + '" text-anchor="middle" dominant-baseline="middle" font-size="10" fill="#6b7280">' + f.label + '</text>';
+  });
+
+  var dotMarkers = pts.map(function(pt) {
+    return '<circle cx="' + pt.split(',')[0] + '" cy="' + pt.split(',')[1] + '" r="3" fill="#15803d"/>';
+  }).join('');
+
+  return '<svg viewBox="0 0 ' + size + ' ' + size + '" style="width:100%;max-width:' + size + 'px;height:auto;display:block;margin:0 auto">' +
+    grid + axes +
+    '<polygon points="' + pts.join(' ') + '" fill="rgba(21,128,61,0.18)" stroke="#15803d" stroke-width="2"/>' +
+    dotMarkers + labels +
+    '</svg>';
+}
+
+function renderDotRow(fruitId, score) {
+  return FRUITS.reduce(function(html, f) { return html; }, '') ||
+    [1,2,3,4,5].map(function(n) {
+      return '<button class="dot' + (n <= score ? ' filled' : '') + '" onclick="setFruit(\'' + fruitId + '\',' + n + ')"></button>';
+    }).join('');
+}
+
+// ─── TABS ────────────────────────────────────────────────────────────────────
 
 const TABS = [
   {id:"dashboard", label:"Dashboard"},
   {id:"scan",      label:"Sunday Scan"},
   {id:"visitors",  label:"Visitor Log"},
   {id:"followup",  label:"Follow-Up List"},
-  {id:"history",   label:"Attendance History"}
+  {id:"history",   label:"Attendance History"},
+  {id:"scorecard", label:"&#127807; Fruitfulness"}
 ];
 
 let activeTab = "dashboard";
@@ -219,16 +524,16 @@ function renderTabs() {
   const fu = followUpList().filter(m => !contacted[m.id]).length;
   document.getElementById("tab-bar").innerHTML = TABS.map(t => {
     const isFU = t.id === "followup" && fu > 0;
-    return `<button class="tab${t.id===activeTab?' active':''}" onclick="switchTab('${t.id}')">
-      ${t.label}${isFU ? `<span class="badge">${fu}</span>` : ""}
-    </button>`;
+    return '<button class="tab' + (t.id===activeTab?' active':'') + '" onclick="switchTab(\'' + t.id + '\')">' +
+      t.label + (isFU ? '<span class="badge">' + fu + '</span>' : '') +
+      '</button>';
   }).join("");
 }
 
 function switchTab(id) {
   activeTab = id;
   TABS.forEach(t => {
-    document.getElementById(`panel-${t.id}`).classList.toggle("active", t.id === id);
+    document.getElementById('panel-' + t.id).classList.toggle('active', t.id === id);
   });
   renderTabs();
   renderActive();
@@ -237,15 +542,16 @@ function switchTab(id) {
 function renderActive() {
   const renders = {
     dashboard: renderDashboard,
-    scan: renderScan,
-    visitors: renderVisitors,
-    followup: renderFollowUp,
-    history: renderHistory
+    scan:      renderScan,
+    visitors:  renderVisitors,
+    followup:  renderFollowUp,
+    history:   renderHistory,
+    scorecard: renderScorecard
   };
   renders[activeTab]();
 }
 
-// ─── DASHBOARD ──────────────────────────────────────────────────────────────
+// ─── DASHBOARD ───────────────────────────────────────────────────────────────
 
 function renderDashboard() {
   const fu = followUpList().filter(m => !contacted[m.id]);
@@ -273,29 +579,28 @@ function renderDashboard() {
     <div class="card">
       <div class="card-title">Weekly Attendance</div>
       <div style="margin-top:12px">
-        ${SERVICE_DATES.map(d => `
-          <div class="bar-row">
-            <div class="bar-label">${d.slice(5)}</div>
-            <div class="bar-track"><div class="bar-fill" style="width:${(serviceCount(d)/MEMBERS.length*100).toFixed(0)}%"></div></div>
-            <div class="bar-count">${serviceCount(d)} members${visitorCount(d)>0?` +${visitorCount(d)}V`:""}</div>
-          </div>`).join("")}
+        ${SERVICE_DATES.map(d =>
+          '<div class="bar-row">' +
+          '<div class="bar-label">' + d.slice(5) + '</div>' +
+          '<div class="bar-track"><div class="bar-fill" style="width:' + (serviceCount(d)/MEMBERS.length*100).toFixed(0) + '%"></div></div>' +
+          '<div class="bar-count">' + serviceCount(d) + ' members' + (visitorCount(d)>0?' +'+visitorCount(d)+'V':'') + '</div>' +
+          '</div>'
+        ).join("")}
       </div>
     </div>
 
     ${fu.length > 0 ? `
     <div class="alert">
-      <div class="alert-title">⚠️ Needs Attention</div>
-      ${fu.slice(0,5).map(m => `
-        <div class="alert-row">
-          <span>${m.name}</span>
-          <span class="alert-weeks">Away ${m.weeksSince} wk${m.weeksSince!==1?"s":""}</span>
-        </div>`).join("")}
-      ${fu.length > 5 ? `<div class="more-link" onclick="switchTab('followup')">+ ${fu.length-5} more → Go to Follow-Up List</div>` : ""}
-    </div>` : `<div class="card" style="color:#16a34a;font-weight:600">🎉 Everyone has been seen recently!</div>`}
+      <div class="alert-title">&#9888;&#65039; Needs Attention</div>
+      ${fu.slice(0,5).map(m =>
+        '<div class="alert-row"><span>' + m.name + '</span><span class="alert-weeks">Away ' + m.weeksSince + ' wk' + (m.weeksSince!==1?'s':'') + '</span></div>'
+      ).join("")}
+      ${fu.length > 5 ? '<div class="more-link" onclick="switchTab(\'followup\')">+ ' + (fu.length-5) + ' more → Go to Follow-Up List</div>' : ""}
+    </div>` : '<div class="card" style="color:#16a34a;font-weight:600">&#127881; Everyone has been seen recently!</div>'}
   `;
 }
 
-// ─── SUNDAY SCAN ────────────────────────────────────────────────────────────
+// ─── SUNDAY SCAN ─────────────────────────────────────────────────────────────
 
 function renderScan() {
   document.getElementById("panel-scan").innerHTML = `
@@ -307,7 +612,7 @@ function renderScan() {
           <label>Service Date</label>
           <input type="date" id="scan-date" value="${TODAY}">
         </div>
-        <button class="btn btn-primary" onclick="runScan()">📷 Run Scan</button>
+        <button class="btn btn-primary" onclick="runScan()">&#128247; Run Scan</button>
       </div>
       <div id="scan-result"></div>
     </div>`;
@@ -318,28 +623,21 @@ function runScan() {
   const already = attendance.filter(a => a.date === date).map(a => a.personId);
   const eligible = MEMBERS.filter(m => !already.includes(m.id));
   const el = document.getElementById("scan-result");
-
   if (eligible.length === 0) {
-    el.innerHTML = `<div class="scan-result" style="background:#f0fdf4"><div style="color:#166534;font-weight:600">✅ Scan already complete for ${date}</div></div>`;
+    el.innerHTML = '<div class="scan-result" style="background:#f0fdf4"><div style="color:#166534;font-weight:600">&#9989; Scan already complete for ' + date + '</div></div>';
     return;
   }
-
   const shuffled = [...eligible].sort(() => Math.random()-0.5);
   const recognized = shuffled.slice(0, Math.floor(shuffled.length * (0.75 + Math.random()*0.15)));
   let nid = Math.max(...attendance.map(a=>a.id), 0) + 1;
   recognized.forEach(m => attendance.push({id: nid++, personId: m.id, date}));
-
-  el.innerHTML = `
-    <div class="scan-result">
-      <div class="scan-title">✅ Scan Complete — ${recognized.length} members identified on ${date}</div>
-      <div class="scan-chips">${recognized.map(m=>`<span class="chip">${m.name}</span>`).join("")}</div>
-      <div class="scan-note">${MEMBERS.length - recognized.length} members not detected — check Follow-Up List</div>
-    </div>`;
-
+  el.innerHTML = '<div class="scan-result"><div class="scan-title">&#9989; Scan Complete — ' + recognized.length + ' members identified on ' + date + '</div>' +
+    '<div class="scan-chips">' + recognized.map(m=>'<span class="chip">'+m.name+'</span>').join("") + '</div>' +
+    '<div class="scan-note">' + (MEMBERS.length - recognized.length) + ' members not detected — check Follow-Up List</div></div>';
   renderTabs();
 }
 
-// ─── VISITORS ───────────────────────────────────────────────────────────────
+// ─── VISITORS ────────────────────────────────────────────────────────────────
 
 function renderVisitors() {
   document.getElementById("panel-visitors").innerHTML = `
@@ -361,18 +659,15 @@ function renderVisitors() {
 
     <div class="card">
       <div class="card-title">Visitor Log</div>
-      ${visitors.length === 0 ? `<div style="color:#9ca3af;font-size:14px">No visitors logged yet.</div>` : `
+      ${visitors.length === 0 ? '<div style="color:#9ca3af;font-size:14px">No visitors logged yet.</div>' : `
       <div class="overflow">
         <table>
           <thead><tr><th>Name</th><th>Date</th><th>Times Visited</th></tr></thead>
           <tbody>
             ${[...visitors].sort((a,b)=>b.date.localeCompare(a.date)).map(v => {
               const count = visitors.filter(x=>x.name===v.name).length;
-              return `<tr>
-                <td>${v.name}</td>
-                <td style="color:#6b7280">${v.date}</td>
-                <td>${count>1?badge(`${count}x - Returning!`,"green"):badge("First Time","blue")}</td>
-              </tr>`;
+              return '<tr><td>' + v.name + '</td><td style="color:#6b7280">' + v.date + '</td><td>' +
+                (count>1?badge(count+'x - Returning!',"green"):badge("First Time","blue")) + '</td></tr>';
             }).join("")}
           </tbody>
         </table>
@@ -388,7 +683,7 @@ function addVisitor() {
   renderVisitors();
 }
 
-// ─── FOLLOW-UP ──────────────────────────────────────────────────────────────
+// ─── FOLLOW-UP ───────────────────────────────────────────────────────────────
 
 function renderFollowUp() {
   const list = followUpList();
@@ -397,28 +692,26 @@ function renderFollowUp() {
       <div class="card-title">Follow-Up List</div>
       <div class="card-sub">Members absent ${FOLLOW_UP_WEEKS}+ weeks — flagged for pastoral outreach.</div>
       ${list.length === 0
-        ? `<div style="color:#16a34a;font-weight:600">🎉 Everyone has been seen recently!</div>`
-        : list.map(m => `
-          <div class="followup-card${contacted[m.id]?' done':''}" id="fc-${m.id}">
-            <div class="followup-top">
-              <div>
-                <span class="followup-name">${m.name}</span>
-                <span style="margin-left:8px">${m.weeksSince>=6?badge("Urgent","red"):m.weeksSince>=4?badge("High","yellow"):badge("Follow Up","blue")}</span>
-              </div>
-              <div class="followup-meta">Last seen: ${m.lastSeen||"Never"} · ${m.weeksSince===99?"No record":`${m.weeksSince} weeks ago`}</div>
-            </div>
-            ${notes[m.id] ? `<div class="followup-note">📝 ${notes[m.id]}</div>` : ""}
-            <div class="followup-actions">
-              <input id="note-${m.id}" placeholder="Add note (called, left voicemail...)">
-              <button class="btn btn-gray" onclick="saveNote(${m.id})">Save Note</button>
-              <button class="btn btn-green" onclick="toggleContacted(${m.id})">${contacted[m.id]?"✅ Done":"Mark Contacted"}</button>
-            </div>
-          </div>`).join("")}
+        ? '<div style="color:#16a34a;font-weight:600">&#127881; Everyone has been seen recently!</div>'
+        : list.map(m =>
+          '<div class="followup-card' + (contacted[m.id]?' done':'') + '" id="fc-' + m.id + '">' +
+          '<div class="followup-top">' +
+          '<div><span class="followup-name">' + m.name + '</span>' +
+          '<span style="margin-left:8px">' + (m.weeksSince>=6?badge("Urgent","red"):m.weeksSince>=4?badge("High","yellow"):badge("Follow Up","blue")) + '</span></div>' +
+          '<div class="followup-meta">Last seen: ' + (m.lastSeen||"Never") + ' &middot; ' + (m.weeksSince===99?"No record":m.weeksSince+" weeks ago") + '</div>' +
+          '</div>' +
+          (notes[m.id] ? '<div class="followup-note">&#128221; ' + escHtml(notes[m.id]) + '</div>' : '') +
+          '<div class="followup-actions">' +
+          '<input id="note-' + m.id + '" placeholder="Add note (called, left voicemail...)">' +
+          '<button class="btn btn-gray" onclick="saveNote(' + m.id + ')">Save Note</button>' +
+          '<button class="btn btn-green" onclick="toggleContacted(' + m.id + ')">' + (contacted[m.id]?"&#9989; Done":"Mark Contacted") + '</button>' +
+          '</div></div>'
+        ).join("")}
     </div>`;
 }
 
 function saveNote(id) {
-  const val = document.getElementById(`note-${id}`).value;
+  const val = document.getElementById('note-' + id).value;
   notes[id] = val;
   renderFollowUp();
   renderTabs();
@@ -430,7 +723,7 @@ function toggleContacted(id) {
   renderTabs();
 }
 
-// ─── HISTORY ────────────────────────────────────────────────────────────────
+// ─── HISTORY ─────────────────────────────────────────────────────────────────
 
 function renderHistory() {
   document.getElementById("panel-history").innerHTML = `
@@ -441,7 +734,7 @@ function renderHistory() {
           <thead>
             <tr>
               <th>Name</th>
-              ${SERVICE_DATES.map(d=>`<th style="text-align:center;font-size:11px">${d.slice(5)}</th>`).join("")}
+              ${SERVICE_DATES.map(d=>'<th style="text-align:center;font-size:11px">'+d.slice(5)+'</th>').join("")}
               <th style="text-align:center">Total</th>
               <th style="text-align:center">Status</th>
             </tr>
@@ -450,15 +743,13 @@ function renderHistory() {
             ${[...MEMBERS].sort((a,b)=>a.name.localeCompare(b.name)).map(m => {
               const ls = lastSeen(m.id);
               const weeks = ls ? weeksBetween(ls, TODAY) : 99;
-              return `<tr>
-                <td style="font-weight:500">${m.name}</td>
-                ${SERVICE_DATES.map(d => {
+              return '<tr><td style="font-weight:500">' + m.name + '</td>' +
+                SERVICE_DATES.map(d => {
                   const present = attendance.some(a=>a.personId===m.id&&a.date===d);
-                  return `<td style="text-align:center">${present?`<span class="check">✓</span>`:`<span class="dash">—</span>`}</td>`;
-                }).join("")}
-                <td style="text-align:center;font-weight:700">${attendCount(m.id)}</td>
-                <td style="text-align:center">${statusBadge(weeks)}</td>
-              </tr>`;
+                  return '<td style="text-align:center">' + (present?'<span class="check">&#10003;</span>':'<span class="dash">&#8212;</span>') + '</td>';
+                }).join("") +
+                '<td style="text-align:center;font-weight:700">' + attendCount(m.id) + '</td>' +
+                '<td style="text-align:center">' + statusBadge(weeks) + '</td></tr>';
             }).join("")}
           </tbody>
         </table>
@@ -466,9 +757,454 @@ function renderHistory() {
     </div>`;
 }
 
-// ─── INIT ───────────────────────────────────────────────────────────────────
+// ─── SCORECARD ────────────────────────────────────────────────────────────────
 
-document.getElementById("header-sub").textContent = `Pastoral Care Dashboard · ${MEMBERS.length} Members Enrolled`;
+function renderScorecard() {
+  if (!pendingEntry) initPendingEntry();
+
+  const subNav = '<div class="sub-tabs">' +
+    [["thisweek","This Week"],["pruning","Pruning Map"],["progress","Progress"],["history","All Entries"]].map(function(pair) {
+      return '<button class="sub-tab' + (scorecardView===pair[0]?' active':'') + '" onclick="setScorecardView(\'' + pair[0] + '\')">' + pair[1] + '</button>';
+    }).join('') +
+    '</div>';
+
+  var content;
+  if      (scorecardView === 'thisweek') content = renderScorecardThisWeek();
+  else if (scorecardView === 'pruning')  content = renderScorecardPruning();
+  else if (scorecardView === 'progress') content = renderScorecardProgress();
+  else                                   content = renderScorecardHistory();
+
+  document.getElementById('panel-scorecard').innerHTML =
+    '<div class="sc-hero">' +
+    '<div class="sc-verse">"I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit; apart from me you can do nothing."</div>' +
+    '<div class="sc-ref">— John 15:5</div>' +
+    '</div>' +
+    subNav + content;
+}
+
+function setScorecardView(view) {
+  if (scorecardView === 'thisweek') syncFormToPending();
+  scorecardView = view;
+  renderScorecard();
+}
+
+function initPendingEntry() {
+  var weekDate = editingWeekDate || weekStart(TODAY);
+  var existing = weeklyEntries.find(function(e) { return e.weekDate === weekDate; });
+  if (existing) {
+    pendingEntry = JSON.parse(JSON.stringify(existing));
+  } else {
+    pendingEntry = {
+      id: null, weekDate: weekDate, abidingScore: 5,
+      intentions: [],
+      habits: {prayer:0,scripture:0,worship:0,fellowship:0,service:0,fasting:0,journaling:0},
+      fruits: {love:3,joy:3,peace:3,patience:3,kindness:3,goodness:3,faithfulness:3,gentleness:3,selfControl:3},
+      reflection: '', pruningNote: ''
+    };
+  }
+}
+
+function syncFormToPending() {
+  if (!pendingEntry) return;
+  var abiding = document.getElementById('abiding-slider');
+  if (abiding) pendingEntry.abidingScore = parseInt(abiding.value) || 5;
+  HABITS.forEach(function(h) {
+    var el = document.getElementById('habit-' + h.id);
+    if (el) pendingEntry.habits[h.id] = Math.min(7, Math.max(0, parseInt(el.value) || 0));
+  });
+  var refl = document.getElementById('entry-reflection');
+  if (refl) pendingEntry.reflection = refl.value;
+  var prune = document.getElementById('entry-pruningnote');
+  if (prune) pendingEntry.pruningNote = prune.value;
+}
+
+// ── This Week view ────────────────────────────────────────────────────────────
+
+function renderScorecardThisWeek() {
+  var currentWeek = weekStart(TODAY);
+  if (!pendingEntry || (!editingWeekDate && pendingEntry.weekDate !== currentWeek)) {
+    editingWeekDate = null;
+    initPendingEntry();
+  }
+
+  var isEditingPast = editingWeekDate && editingWeekDate !== currentWeek;
+
+  // Toast
+  var toastHtml = savedMessage ? '<div class="save-toast">&#10003; ' + escHtml(savedMessage) + '</div>' : '';
+
+  // Editing-past banner
+  var pastBanner = isEditingPast
+    ? '<div class="past-edit-banner"><span class="past-edit-label">Editing: Week of ' + formatWeekDate(editingWeekDate) + '</span>' +
+      '<button class="btn btn-gray btn-sm" onclick="backToThisWeek()">&#8592; Back to This Week</button></div>'
+    : '';
+
+  // Intentions
+  var intentionsHtml = pendingEntry.intentions.length === 0
+    ? '<div class="no-intentions">No intentions set yet for this week.</div>'
+    : pendingEntry.intentions.map(function(intent, i) {
+        return '<div class="intention-row"><span class="intention-text">&#10003; ' + escHtml(intent) + '</span>' +
+          '<button class="btn-icon" onclick="removeIntention(' + i + ')" title="Remove">&#10005;</button></div>';
+      }).join('');
+
+  // Habits
+  var habitsHtml = HABITS.map(function(h) {
+    return '<div class="habit-item">' +
+      '<span class="habit-icon">' + h.icon + '</span>' +
+      '<span class="habit-label">' + h.label + '</span>' +
+      '<input type="number" id="habit-' + h.id + '" class="habit-days" min="0" max="7" value="' + (pendingEntry.habits[h.id] || 0) + '">' +
+      '<span class="habit-unit">days</span>' +
+      '</div>';
+  }).join('');
+
+  // Fruits
+  var fruitsHtml = FRUITS.map(function(f) {
+    var score = pendingEntry.fruits[f.id] || 3;
+    var dots = [1,2,3,4,5].map(function(n) {
+      return '<button class="dot' + (n <= score ? ' filled' : '') + '" onclick="setFruit(\'' + f.id + '\',' + n + ')"></button>';
+    }).join('');
+    return '<div class="fruit-row"><div class="fruit-label-text">' + f.label + '</div>' +
+      '<div class="fruit-dots" id="fdots-' + f.id + '">' + dots + '</div></div>';
+  }).join('');
+
+  var abidingScore = pendingEntry.abidingScore || 5;
+  var abColor = abidingColor(abidingScore);
+
+  return toastHtml + pastBanner +
+    '<div class="card">' +
+    '<div class="card-title">Week of ' + formatWeekDate(pendingEntry.weekDate) + '</div>' +
+    '<div class="card-sub">Log your intentions, spiritual habits, and sense of abiding for this week.</div>' +
+
+    '<div class="sc-section">&#127807; Weekly Intentions</div>' +
+    '<div id="intentions-list">' + intentionsHtml + '</div>' +
+    '<div class="input-row" style="margin-top:8px">' +
+    '<input type="text" id="new-intention" placeholder="Set an intention for this week..." style="flex:1;min-width:200px;padding:8px 12px;border-radius:8px;border:1px solid #d1d5db;font-size:14px" onkeydown="if(event.key===\'Enter\')addIntention()">' +
+    '<button class="btn btn-green" onclick="addIntention()">+ Add</button>' +
+    '</div>' +
+
+    '<div class="sc-section" style="margin-top:20px">&#128591; Spiritual Habits <span style="font-weight:400;color:#9ca3af;font-size:12px">(days practiced this week, 0–7)</span></div>' +
+    '<div class="habit-grid">' + habitsHtml + '</div>' +
+
+    '<div class="sc-section" style="margin-top:20px">&#127815; Fruits of the Spirit <span style="font-weight:400;color:#9ca3af;font-size:12px">(1 = weak &nbsp;·&nbsp; 5 = strong)</span></div>' +
+    '<div class="fruit-grid">' + fruitsHtml + '</div>' +
+
+    '<div class="sc-section" style="margin-top:20px">&#127807; Abiding Score — How connected to the Vine did you feel?</div>' +
+    '<div class="abiding-row">' +
+    '<span class="abiding-low">Dry</span>' +
+    '<input type="range" id="abiding-slider" class="abiding-slider" min="1" max="10" value="' + abidingScore + '" oninput="updateAbidingDisplay(this.value)">' +
+    '<span class="abiding-high">Deeply Abiding</span>' +
+    '<span id="abiding-display" class="abiding-display" style="color:' + abColor + '">' + abidingScore + '/10</span>' +
+    '</div>' +
+    '<div id="abiding-label" class="abiding-descriptor">' + abidingLabel(abidingScore) + '</div>' +
+
+    '<div class="sc-section" style="margin-top:20px">&#128221; Reflection</div>' +
+    '<textarea id="entry-reflection" class="sc-textarea" placeholder="What did you sense the Spirit doing this week? Where did you see fruit?">' + escHtml(pendingEntry.reflection) + '</textarea>' +
+
+    '<div class="sc-section" style="margin-top:16px">&#9986;&#65039; Pruning Note — What might God be cutting away?</div>' +
+    '<textarea id="entry-pruningnote" class="sc-textarea" placeholder="Any area where you sense God pruning you for greater fruitfulness...">' + escHtml(pendingEntry.pruningNote) + '</textarea>' +
+
+    '<div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">' +
+    '<button class="btn btn-primary" onclick="saveWeeklyEntry()" style="background:#15803d">&#128190; Save Entry</button>' +
+    (isEditingPast ? '<button class="btn btn-gray" onclick="backToThisWeek()">&#8592; Back to This Week</button>' : '') +
+    '</div>' +
+    '</div>';
+}
+
+// ── Pruning Map view ──────────────────────────────────────────────────────────
+
+function renderScorecardPruning() {
+  var statusLabels = {active:"Needs Pruning", growing:"Growing Through It", pruned:"Fruit Bearing"};
+  var statusBadgeClasses = {active:"red", growing:"yellow", pruned:"green"};
+
+  var statsHtml = '<div class="stats" style="margin-bottom:0">' +
+    '<div class="stat" style="border-top:4px solid #ef4444"><div class="stat-val" style="color:#ef4444">' +
+    pruningAreas.filter(function(p){return p.status==="active";}).length +
+    '</div><div class="stat-label">Needs Pruning</div></div>' +
+    '<div class="stat" style="border-top:4px solid #d97706"><div class="stat-val" style="color:#d97706">' +
+    pruningAreas.filter(function(p){return p.status==="growing";}).length +
+    '</div><div class="stat-label">Growing Through</div></div>' +
+    '<div class="stat" style="border-top:4px solid #15803d"><div class="stat-val" style="color:#15803d">' +
+    pruningAreas.filter(function(p){return p.status==="pruned";}).length +
+    '</div><div class="stat-label">Fruit Bearing</div></div>' +
+    '</div>';
+
+  var addFormHtml =
+    '<div class="card">' +
+    '<div class="card-title">&#9986;&#65039; Pruning Map</div>' +
+    '<div class="card-sub">"He cuts off every branch in me that bears no fruit, while every branch that does bear fruit he prunes so that it will be even more fruitful." — John 15:2</div>' +
+    statsHtml +
+    '<div class="sc-section" style="margin-top:20px">Name a Growth Area</div>' +
+    '<div style="display:flex;flex-direction:column;gap:10px">' +
+    '<input type="text" id="prune-area" placeholder="What area needs pruning or growth?" style="padding:8px 12px;border-radius:8px;border:1px solid #d1d5db;font-size:14px">' +
+    '<div class="input-row">' +
+    '<select id="prune-cat" style="padding:8px 12px;border-radius:8px;border:1px solid #d1d5db;font-size:13px">' +
+    PRUNING_CATS.map(function(c){return '<option value="'+c+'">'+c+'</option>';}).join('') +
+    '</select>' +
+    '<input type="text" id="prune-note" placeholder="Initial note or prayer..." style="flex:1;min-width:160px;padding:8px 12px;border-radius:8px;border:1px solid #d1d5db;font-size:14px">' +
+    '<button class="btn btn-primary" onclick="addPruningArea()" style="background:#92400e;white-space:nowrap">+ Add Area</button>' +
+    '</div>' +
+    '</div>' +
+    '</div>';
+
+  var areasHtml = pruningAreas.length === 0
+    ? '<div class="card" style="color:#6b7280;font-size:14px;font-style:italic">No pruning areas yet. Add one above to begin mapping your growth.</div>'
+    : [...pruningAreas].reverse().map(function(p) {
+        var statusBtns =
+          (p.status !== 'active'  ? '<button class="btn btn-gray btn-sm" onclick="setPruningStatus('+p.id+',\'active\')">Needs Pruning</button>' : '') +
+          (p.status !== 'growing' ? '<button class="btn btn-sm" onclick="setPruningStatus('+p.id+',\'growing\')" style="background:#fef3c7;color:#92400e;border:none;font-weight:700;cursor:pointer">Growing &#127807;</button>' : '') +
+          (p.status !== 'pruned'  ? '<button class="btn btn-green btn-sm" onclick="setPruningStatus('+p.id+',\'pruned\')">Fruit Bearing &#9989;</button>' : '');
+
+        return '<div class="pruning-card pruning-' + p.status + '">' +
+          '<div class="pruning-top">' +
+          '<div><span class="pruning-area-text">' + escHtml(p.area) + '</span> ' +
+          badge(statusLabels[p.status], statusBadgeClasses[p.status]) + ' ' +
+          badge(p.category, 'gray') + '</div>' +
+          '<div class="pruning-date-text">Added ' + p.dateAdded + '</div>' +
+          '</div>' +
+          (p.notes ? '<div class="pruning-note-text">&#128221; ' + escHtml(p.notes) + '</div>' : '') +
+          '<div class="pruning-actions">' + statusBtns + '</div>' +
+          '</div>';
+      }).join('');
+
+  return addFormHtml + areasHtml;
+}
+
+// ── Progress view ─────────────────────────────────────────────────────────────
+
+function renderScorecardProgress() {
+  if (weeklyEntries.length === 0) {
+    return '<div class="card" style="color:#6b7280;font-size:14px;font-style:italic">No entries logged yet. Log your first week to see your progress.</div>';
+  }
+
+  var sorted = [...weeklyEntries].sort(function(a,b){ return a.weekDate.localeCompare(b.weekDate); });
+  var overallAvg = (sorted.reduce(function(s,e){return s+e.abidingScore;},0) / sorted.length).toFixed(1);
+
+  // Average fruits
+  var avgFruits = {};
+  FRUITS.forEach(function(f) {
+    var vals = sorted.map(function(e){return e.fruits[f.id]||0;}).filter(function(v){return v>0;});
+    avgFruits[f.id] = vals.length ? vals.reduce(function(a,b){return a+b;},0)/vals.length : 0;
+  });
+  var avgFruitOverall = (Object.values(avgFruits).reduce(function(a,b){return a+b;},0)/9).toFixed(1);
+
+  // Habit correlation
+  var correlations = HABITS.map(function(h) {
+    var withH    = sorted.filter(function(e){return (e.habits[h.id]||0)>=3;});
+    var withoutH = sorted.filter(function(e){return (e.habits[h.id]||0)<3;});
+    var avgWith    = withH.length    ? withH.reduce(function(s,e){return s+e.abidingScore;},0)/withH.length    : null;
+    var avgWithout = withoutH.length ? withoutH.reduce(function(s,e){return s+e.abidingScore;},0)/withoutH.length : null;
+    var diff = (avgWith !== null && avgWithout !== null) ? avgWith - avgWithout : (avgWith !== null ? avgWith - 5 : 0);
+    return {habit:h, avgWith:avgWith, avgWithout:avgWithout, diff:diff, nWith:withH.length};
+  }).sort(function(a,b){return b.diff - a.diff;});
+
+  var maxBarRef = Math.max.apply(null, sorted.map(function(e){return e.abidingScore;}));
+
+  // Abiding trend bars
+  var trendHtml = sorted.map(function(e) {
+    var col = abidingColor(e.abidingScore);
+    var pct = (e.abidingScore / 10 * 100).toFixed(0);
+    return '<div class="bar-row">' +
+      '<div class="bar-label" style="font-size:11px">' + e.weekDate.slice(5) + '</div>' +
+      '<div class="bar-track"><div class="bar-fill" style="background:' + col + ';width:' + pct + '%"></div></div>' +
+      '<div class="bar-count" style="color:' + col + '">' + e.abidingScore + '/10</div>' +
+      '</div>';
+  }).join('');
+
+  // Fruit bars
+  var fruitBarsHtml = FRUITS.map(function(f) {
+    var avg = avgFruits[f.id];
+    var pct = (avg/5*100).toFixed(0);
+    return '<div class="fruit-prog-row">' +
+      '<div class="fruit-prog-label">' + f.label + '</div>' +
+      '<div class="fruit-prog-track"><div class="fruit-prog-fill" style="width:' + pct + '%"></div></div>' +
+      '<div class="fruit-prog-val">' + avg.toFixed(1) + '</div>' +
+      '</div>';
+  }).join('');
+
+  // Correlation bars
+  var maxCorrRef = 10;
+  var corrHtml = correlations.map(function(c) {
+    var diffColor = c.diff >= 1.5 ? '#15803d' : c.diff >= 0.5 ? '#0f766e' : c.diff < 0 ? '#dc2626' : '#9ca3af';
+    var withPct    = c.avgWith    !== null ? (c.avgWith    / maxCorrRef * 100).toFixed(0) : '0';
+    var withoutPct = c.avgWithout !== null ? (c.avgWithout / maxCorrRef * 100).toFixed(0) : '0';
+    var withVal    = c.avgWith    !== null ? c.avgWith.toFixed(1)    : '—';
+    var withoutVal = c.avgWithout !== null ? c.avgWithout.toFixed(1) : '—';
+    var diffStr    = c.diff > 0 ? '+' + c.diff.toFixed(1) : c.diff.toFixed(1);
+    var fewData    = c.nWith < 2 ? ' ' + badge('few data','gray') : '';
+
+    return '<div class="corr-block">' +
+      '<div class="corr-habit-label">' + c.habit.icon + ' ' + c.habit.label + '</div>' +
+      '<div class="corr-row">' +
+      '<div class="corr-type">3+ days</div>' +
+      '<div class="corr-track"><div class="bar-fill" style="background:' + diffColor + ';height:100%;width:' + withPct + '%;border-radius:3px"></div></div>' +
+      '<div class="corr-val" style="color:' + diffColor + '">' + withVal + '</div>' +
+      '<div class="corr-diff" style="color:' + diffColor + '">' + diffStr + fewData + '</div>' +
+      '</div>' +
+      '<div class="corr-row">' +
+      '<div class="corr-type" style="color:#9ca3af">&lt; 3 days</div>' +
+      '<div class="corr-track"><div class="bar-fill" style="background:#d1d5db;height:100%;width:' + withoutPct + '%;border-radius:3px"></div></div>' +
+      '<div class="corr-val" style="color:#9ca3af">' + withoutVal + '</div>' +
+      '<div class="corr-diff"></div>' +
+      '</div>' +
+      '</div>';
+  }).join('');
+
+  return '<div class="stats">' +
+    '<div class="stat" style="border-top:4px solid #15803d"><div class="stat-val" style="color:#15803d">' + overallAvg + '</div><div class="stat-label">Avg Abiding Score</div></div>' +
+    '<div class="stat" style="border-top:4px solid #0f766e"><div class="stat-val" style="color:#0f766e">' + sorted.length + '</div><div class="stat-label">Weeks Logged</div></div>' +
+    '<div class="stat" style="border-top:4px solid #7c3aed"><div class="stat-val" style="color:#7c3aed">' + avgFruitOverall + '</div><div class="stat-label">Avg Fruit Score</div></div>' +
+    '</div>' +
+
+    '<div class="card">' +
+    '<div class="card-title">&#127807; Abiding Score — Week by Week</div>' +
+    '<div style="margin-top:12px">' + trendHtml + '</div>' +
+    '</div>' +
+
+    '<div class="card">' +
+    '<div class="card-title">&#127815; Fruits of the Spirit — Current Averages</div>' +
+    '<div style="margin-top:16px">' + fruitsRadarSVG(avgFruits, 300) + '</div>' +
+    '<div style="margin-top:20px">' + fruitBarsHtml + '</div>' +
+    '</div>' +
+
+    '<div class="card">' +
+    '<div class="card-title">&#128279; Habit Correlation — Impact on Abiding Score</div>' +
+    '<div class="card-sub">Weeks practicing a habit 3+ days vs. fewer than 3 days. Higher score = stronger connection with the Vine.</div>' +
+    '<div style="margin-top:8px">' + corrHtml + '</div>' +
+    '</div>';
+}
+
+// ── All Entries view ──────────────────────────────────────────────────────────
+
+function renderScorecardHistory() {
+  if (weeklyEntries.length === 0) {
+    return '<div class="card" style="color:#6b7280;font-size:14px;font-style:italic">No entries logged yet.</div>';
+  }
+
+  var sorted = [...weeklyEntries].sort(function(a,b){ return b.weekDate.localeCompare(a.weekDate); });
+
+  var rows = sorted.map(function(e) {
+    var topHabits = HABITS.filter(function(h){return (e.habits[h.id]||0)>=4;}).map(function(h){return h.icon;}).join('');
+    var avgFruit  = (Object.values(e.fruits).reduce(function(a,b){return a+b;},0)/9).toFixed(1);
+    var fruitBadge = parseFloat(avgFruit)>=4 ? badge(avgFruit+'/5','green') : parseFloat(avgFruit)>=3 ? badge(avgFruit+'/5','yellow') : badge(avgFruit+'/5','red');
+    var abColor = abidingColor(e.abidingScore);
+    var isCurrentEdit = editingWeekDate === e.weekDate;
+    return '<tr' + (isCurrentEdit ? ' style="background:#f0fdf4"' : '') + '>' +
+      '<td style="font-weight:500">' + e.weekDate + '</td>' +
+      '<td style="text-align:center;font-weight:800;color:' + abColor + '">' + e.abidingScore + '/10</td>' +
+      '<td style="font-size:15px;letter-spacing:2px">' + (topHabits || '<span style="color:#d1d5db;font-size:12px">—</span>') + '</td>' +
+      '<td>' + fruitBadge + '</td>' +
+      '<td>' + (e.intentions.length ? '<span style="font-size:12px;color:#6b7280">' + escHtml(e.intentions[0]) + (e.intentions.length>1?' +' + (e.intentions.length-1) + ' more':'') + '</span>' : '<span style="color:#d1d5db;font-size:12px">—</span>') + '</td>' +
+      '<td style="text-align:center"><button class="btn btn-gray" style="font-size:11px;padding:4px 10px" onclick="editEntry(\'' + e.weekDate + '\')">&#9998; Edit</button></td>' +
+      '</tr>';
+  }).join('');
+
+  return '<div class="card">' +
+    '<div class="card-title">&#128197; All Weekly Entries</div>' +
+    '<div class="overflow" style="margin-top:12px">' +
+    '<table>' +
+    '<thead><tr>' +
+    '<th>Week</th><th style="text-align:center">Abiding</th><th>Top Habits</th><th>Avg Fruit</th><th>Top Intention</th><th style="text-align:center">Edit</th>' +
+    '</tr></thead>' +
+    '<tbody>' + rows + '</tbody>' +
+    '</table>' +
+    '</div></div>';
+}
+
+// ─── SCORECARD ACTIONS ───────────────────────────────────────────────────────
+
+function addIntention() {
+  syncFormToPending();
+  var input = document.getElementById('new-intention');
+  if (!input || !input.value.trim()) return;
+  pendingEntry.intentions.push(input.value.trim());
+  renderScorecard();
+}
+
+function removeIntention(idx) {
+  syncFormToPending();
+  pendingEntry.intentions.splice(idx, 1);
+  renderScorecard();
+}
+
+function setFruit(id, val) {
+  if (!pendingEntry) return;
+  pendingEntry.fruits[id] = val;
+  var container = document.getElementById('fdots-' + id);
+  if (!container) return;
+  container.innerHTML = [1,2,3,4,5].map(function(n) {
+    return '<button class="dot' + (n <= val ? ' filled' : '') + '" onclick="setFruit(\'' + id + '\',' + n + ')"></button>';
+  }).join('');
+}
+
+function updateAbidingDisplay(val) {
+  var disp = document.getElementById('abiding-display');
+  if (disp) { disp.textContent = val + '/10'; disp.style.color = abidingColor(val); }
+  var lbl = document.getElementById('abiding-label');
+  if (lbl) lbl.textContent = abidingLabel(val);
+}
+
+function saveWeeklyEntry() {
+  syncFormToPending();
+  if (!pendingEntry) return;
+
+  var idx = weeklyEntries.findIndex(function(e){return e.weekDate === pendingEntry.weekDate;});
+  if (idx >= 0) {
+    weeklyEntries[idx] = JSON.parse(JSON.stringify(pendingEntry));
+    weeklyEntries[idx].id = weeklyEntries[idx].id || nextWid++;
+  } else {
+    pendingEntry.id = nextWid++;
+    weeklyEntries.push(JSON.parse(JSON.stringify(pendingEntry)));
+  }
+
+  savedMessage = 'Entry saved! Keep abiding in Him.';
+  var msgRef = savedMessage;
+  setTimeout(function() {
+    if (savedMessage === msgRef) {
+      savedMessage = null;
+      if (scorecardView === 'thisweek') renderScorecard();
+    }
+  }, 3500);
+  renderScorecard();
+}
+
+function backToThisWeek() {
+  editingWeekDate = null;
+  pendingEntry = null;
+  renderScorecard();
+}
+
+function editEntry(weekDate) {
+  editingWeekDate = weekDate;
+  pendingEntry = null;
+  initPendingEntry();
+  scorecardView = 'thisweek';
+  renderScorecard();
+}
+
+function addPruningArea() {
+  var areaInput = document.getElementById('prune-area');
+  var catInput  = document.getElementById('prune-cat');
+  var noteInput = document.getElementById('prune-note');
+  if (!areaInput || !areaInput.value.trim()) return;
+
+  pruningAreas.push({
+    id: nextPid++,
+    area: areaInput.value.trim(),
+    category: catInput ? catInput.value : 'Other',
+    dateAdded: TODAY,
+    status: 'active',
+    notes: noteInput ? noteInput.value.trim() : ''
+  });
+  renderScorecard();
+}
+
+function setPruningStatus(id, status) {
+  var area = pruningAreas.find(function(p){return p.id === id;});
+  if (area) { area.status = status; renderScorecard(); }
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+
+document.getElementById("header-sub").textContent = 'Pastoral Care Dashboard · ' + MEMBERS.length + ' Members Enrolled';
 renderTabs();
 renderDashboard();
 </script>
