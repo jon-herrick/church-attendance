@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spiritual Fruitfulness Scorecard</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0f13;
+    --surface: #1a1a22;
+    --surface2: #22222e;
+    --border: #2e2e3e;
+    --accent: #7c6fcd;
+    --accent2: #5da87a;
+    --text: #e8e8f0;
+    --text2: #9090aa;
+    --radius: 10px;
+    --fruit-color: #c9a84c;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  header h1 { font-size: 1.15rem; font-weight: 600; }
+  header .verse { font-size: 0.78rem; color: var(--text2); font-style: italic; margin-left: auto; }
+
+  nav {
+    display: flex;
+    gap: 4px;
+    padding: 12px 24px 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  nav button {
+    background: none;
+    border: none;
+    color: var(--text2);
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s;
+  }
+  nav button.active { color: var(--accent); border-bottom-color: var(--accent); }
+  nav button:hover { color: var(--text); }
+
+  main { max-width: 860px; margin: 0 auto; padding: 24px; }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ── cards ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card h2 { font-size: 0.95rem; font-weight: 600; margin-bottom: 16px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* ── grid helpers ── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 600px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+  /* ── form elements ── */
+  label { display: block; font-size: 0.82rem; color: var(--text2); margin-bottom: 4px; }
+  input[type="text"], input[type="date"], input[type="number"], select, textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    padding: 8px 10px;
+    font-size: 0.88rem;
+    font-family: inherit;
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  /* abiding slider */
+  .slider-wrap { display: flex; align-items: center; gap: 12px; }
+  input[type="range"] { flex: 1; accent-color: var(--accent); }
+  .slider-val { font-size: 1.4rem; font-weight: 700; color: var(--accent); min-width: 32px; text-align: right; }
+
+  /* habit counters */
+  .habit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+  .habit-item label { margin-bottom: 6px; }
+  .day-dots { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+  .day-dot {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--surface2);
+    cursor: pointer;
+    font-size: 0.65rem;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text2);
+    transition: all 0.1s;
+    user-select: none;
+  }
+  .day-dot.on { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+
+  /* fruit ratings */
+  .fruit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+  .fruit-item { }
+  .fruit-item label { margin-bottom: 6px; }
+  .star-row { display: flex; gap: 3px; }
+  .star {
+    font-size: 1.2rem; cursor: pointer; color: var(--border);
+    transition: color 0.1s;
+    user-select: none;
+  }
+  .star.on { color: var(--fruit-color); }
+
+  /* intentions */
+  .intention-list { list-style: none; margin-bottom: 8px; }
+  .intention-list li {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface2); border-radius: 6px;
+    padding: 6px 10px; margin-bottom: 6px; font-size: 0.88rem;
+  }
+  .intention-list li button { background: none; border: none; color: var(--text2); cursor: pointer; font-size: 1rem; margin-left: auto; }
+  .add-intention { display: flex; gap: 8px; }
+  .add-intention input { flex: 1; }
+
+  /* buttons */
+  .btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 18px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn.secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn.green { background: var(--accent2); }
+  .btn.small { padding: 5px 12px; font-size: 0.8rem; }
+
+  /* status badges */
+  .badge {
+    display: inline-block; border-radius: 20px; padding: 3px 10px;
+    font-size: 0.75rem; font-weight: 600; text-transform: capitalize;
+  }
+  .badge.active { background: #3a2a50; color: #c9a0f0; }
+  .badge.growing { background: #1e3a28; color: #6eca8a; }
+  .badge.pruned { background: #1e2a3a; color: #6aaace; }
+
+  /* pruning cards */
+  .pruning-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .pruning-card .top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .pruning-card .area-name { font-weight: 600; font-size: 0.95rem; }
+  .pruning-card .notes { font-size: 0.82rem; color: var(--text2); margin-bottom: 8px; }
+  .pruning-card .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  /* radar chart */
+  svg.radar { display: block; margin: 0 auto; }
+
+  /* correlation table */
+  .corr-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .corr-table th { text-align: left; color: var(--text2); font-weight: 500; padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  .corr-table td { padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  .corr-bar { height: 6px; border-radius: 3px; background: var(--accent); display: inline-block; }
+
+  /* history table */
+  .history-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+  .history-table th { text-align: left; color: var(--text2); font-weight: 500; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  .history-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .history-table tr:hover td { background: var(--surface2); }
+
+  /* toast */
+  #toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--accent2); color: #fff;
+    padding: 10px 18px; border-radius: 8px;
+    font-size: 0.88rem; font-weight: 600;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 999;
+  }
+  #toast.show { opacity: 1; }
+
+  .empty { text-align: center; color: var(--text2); padding: 32px; font-size: 0.88rem; }
+
+  .inline-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+  .inline-row > * { flex: 1; min-width: 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>🌿</div>
+  <h1>Spiritual Fruitfulness Scorecard</h1>
+  <div class="verse">"Abide in me, and I in you." — John 15:4</div>
+</header>
+
+<nav>
+  <button class="active" onclick="switchTab('this-week')">This Week</button>
+  <button onclick="switchTab('pruning')">Pruning Map</button>
+  <button onclick="switchTab('progress')">Progress</button>
+  <button onclick="switchTab('history')">All Entries</button>
+</nav>
+
+<main>
+
+<!-- ─────────────────────────── THIS WEEK ─────────────────────────── -->
+<div id="view-this-week" class="view active">
+
+  <div class="card">
+    <h2>Week of</h2>
+    <div class="inline-row">
+      <div>
+        <label>Week start date</label>
+        <input type="date" id="weekDate">
+      </div>
+      <div>
+        <label>Abiding score (1–10)</label>
+        <div class="slider-wrap">
+          <input type="range" id="abidingSlider" min="1" max="10" step="0.5" value="5"
+            oninput="document.getElementById('abidingVal').textContent=this.value">
+          <div class="slider-val" id="abidingVal">5</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Intentions this week</h2>
+    <ul class="intention-list" id="intentionList"></ul>
+    <div class="add-intention">
+      <input type="text" id="intentionInput" placeholder="Add an intention…" onkeydown="if(event.key==='Enter')addIntention()">
+      <button class="btn secondary small" onclick="addIntention()">Add</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Spiritual habits — days practiced</h2>
+    <div class="habit-grid" id="habitGrid"></div>
+  </div>
+
+  <div class="card">
+    <h2>Fruits of the Spirit — self-assessment</h2>
+    <p style="font-size:0.8rem;color:var(--text2);margin-bottom:14px;">Rate each fruit 1–5 based on how you expressed it this week.</p>
+    <div class="fruit-grid" id="fruitGrid"></div>
+  </div>
+
+  <div class="card">
+    <h2>Reflection</h2>
+    <label>What is God saying to you this week?</label>
+    <textarea id="reflection" rows="4" placeholder="Write your reflection here…"></textarea>
+  </div>
+
+  <div style="display:flex;gap:10px;justify-content:flex-end;">
+    <button class="btn secondary" onclick="clearForm()">Clear</button>
+    <button class="btn" onclick="saveWeek()">Save entry</button>
+  </div>
+</div>
+
+<!-- ─────────────────────────── PRUNING MAP ─────────────────────────── -->
+<div id="view-pruning" class="view">
+
+  <div class="card">
+    <h2>Add pruning area</h2>
+    <div class="grid2">
+      <div>
+        <label>Area of growth / pruning</label>
+        <input type="text" id="pruningArea" placeholder="e.g. Pride, Anger, Fear">
+      </div>
+      <div>
+        <label>Start date</label>
+        <input type="date" id="pruningStart">
+      </div>
+    </div>
+    <div style="margin-top:12px;">
+      <label>Initial notes</label>
+      <textarea id="pruningNotes" rows="2" placeholder="What is God revealing?"></textarea>
+    </div>
+    <div style="margin-top:12px;text-align:right;">
+      <button class="btn green" onclick="createPruning()">Add area</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Active areas</h2>
+    <div id="pruningActive"></div>
+  </div>
+
+  <div class="card">
+    <h2>Growing</h2>
+    <div id="pruningGrowing"></div>
+  </div>
+
+  <div class="card">
+    <h2>Pruned / completed</h2>
+    <div id="pruningPruned"></div>
+  </div>
+</div>
+
+<!-- ─────────────────────────── PROGRESS ─────────────────────────── -->
+<div id="view-progress" class="view">
+
+  <div class="card">
+    <h2>Fruits of the Spirit — average radar</h2>
+    <svg class="radar" id="radarSvg" width="300" height="300" viewBox="0 0 300 300"></svg>
+  </div>
+
+  <div class="card">
+    <h2>Habit ↔ abiding correlation</h2>
+    <p style="font-size:0.8rem;color:var(--text2);margin-bottom:12px;">Average abiding score on weeks with 3+ days vs fewer than 3 days of each habit.</p>
+    <table class="corr-table" id="corrTable">
+      <thead><tr><th>Habit</th><th>3+ days avg</th><th>Under 3 avg</th><th>Difference</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Abiding score over time</h2>
+    <svg id="trendSvg" width="100%" height="180" style="display:block;"></svg>
+  </div>
+</div>
+
+<!-- ─────────────────────────── HISTORY ─────────────────────────── -->
+<div id="view-history" class="view">
+  <div class="card" style="padding:0;overflow:hidden;">
+    <table class="history-table" id="historyTable">
+      <thead>
+        <tr>
+          <th>Week</th>
+          <th>Abiding</th>
+          <th>Habits</th>
+          <th>Avg fruit</th>
+          <th>Reflection</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+</main>
+<div id="toast">Saved ✓</div>
+
+<script>
+// ── constants ───────────────────────────────────────────────────────────────
+const HABITS = ["prayer","scripture","worship","fellowship","service","fasting","journaling"];
+const HABIT_LABELS = {
+  prayer:"Prayer", scripture:"Scripture", worship:"Worship",
+  fellowship:"Fellowship", service:"Service", fasting:"Fasting", journaling:"Journaling"
+};
+const FRUITS = ["love","joy","peace","patience","kindness","goodness","faithfulness","gentleness","selfControl"];
+const FRUIT_LABELS = {
+  love:"Love", joy:"Joy", peace:"Peace", patience:"Patience", kindness:"Kindness",
+  goodness:"Goodness", faithfulness:"Faithfulness", gentleness:"Gentleness", selfControl:"Self-Control"
+};
+const DAY_ABBR = ["M","T","W","T","F","S","S"];
+
+// ── state ───────────────────────────────────────────────────────────────────
+let weeks = [];
+let pruningAreas = [];
+let intentions = [];
+let habitDays = {};   // habit -> Set of day indices (0-6)
+let fruitRatings = {}; // fruit -> 1-5
+
+// ── init ────────────────────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  const today = new Date().toISOString().slice(0,10);
+  // Set to Monday of current week
+  const d = new Date(today);
+  const day = d.getDay(); // 0=Sun
+  const diff = day === 0 ? -6 : 1 - day;
+  d.setDate(d.getDate() + diff);
+  document.getElementById("weekDate").value = d.toISOString().slice(0,10);
+  document.getElementById("pruningStart").value = today;
+
+  buildHabitGrid();
+  buildFruitGrid();
+  loadData();
+});
+
+async function loadData() {
+  try {
+    const [w, p] = await Promise.all([
+      fetch("/api/weeks").then(r => r.json()),
+      fetch("/api/pruning").then(r => r.json()),
+    ]);
+    weeks = w;
+    pruningAreas = p;
+    renderAll();
+  } catch(e) {
+    console.error("Failed to load data:", e);
+  }
+}
+
+function renderAll() {
+  renderPruning();
+  renderRadar();
+  renderCorrelation();
+  renderTrend();
+  renderHistory();
+}
+
+// ── tab switching ────────────────────────────────────────────────────────────
+function switchTab(id) {
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+  document.getElementById("view-"+id).classList.add("active");
+  event.target.classList.add("active");
+  if (id === "progress") { renderRadar(); renderCorrelation(); renderTrend(); }
+  if (id === "history") renderHistory();
+  if (id === "pruning") renderPruning();
+}
+
+// ── habit grid ───────────────────────────────────────────────────────────────
+function buildHabitGrid() {
+  const grid = document.getElementById("habitGrid");
+  grid.innerHTML = "";
+  HABITS.forEach(h => {
+    habitDays[h] = new Set();
+    const div = document.createElement("div");
+    div.className = "habit-item";
+    div.innerHTML = `<label>${HABIT_LABELS[h]}</label><div class="day-dots" id="dots-${h}"></div>`;
+    grid.appendChild(div);
+    const dotsEl = div.querySelector(".day-dots");
+    DAY_ABBR.forEach((abbr, i) => {
+      const dot = document.createElement("div");
+      dot.className = "day-dot";
+      dot.textContent = abbr;
+      dot.onclick = () => toggleDot(h, i, dot);
+      dotsEl.appendChild(dot);
+    });
+  });
+}
+
+function toggleDot(habit, dayIdx, dot) {
+  if (habitDays[habit].has(dayIdx)) {
+    habitDays[habit].delete(dayIdx);
+    dot.classList.remove("on");
+  } else {
+    habitDays[habit].add(dayIdx);
+    dot.classList.add("on");
+  }
+}
+
+// ── fruit grid ───────────────────────────────────────────────────────────────
+function buildFruitGrid() {
+  const grid = document.getElementById("fruitGrid");
+  grid.innerHTML = "";
+  FRUITS.forEach(f => {
+    fruitRatings[f] = 0;
+    const div = document.createElement("div");
+    div.className = "fruit-item";
+    div.innerHTML = `<label>${FRUIT_LABELS[f]}</label><div class="star-row" id="stars-${f}"></div>`;
+    grid.appendChild(div);
+    const row = div.querySelector(".star-row");
+    for (let i = 1; i <= 5; i++) {
+      const s = document.createElement("span");
+      s.className = "star";
+      s.textContent = "★";
+      s.onclick = () => setFruit(f, i);
+      row.appendChild(s);
+    }
+  });
+}
+
+function setFruit(fruit, val) {
+  fruitRatings[fruit] = val;
+  const stars = document.querySelectorAll(`#stars-${fruit} .star`);
+  stars.forEach((s, i) => s.classList.toggle("on", i < val));
+}
+
+// ── intentions ───────────────────────────────────────────────────────────────
+function addIntention() {
+  const input = document.getElementById("intentionInput");
+  const text = input.value.trim();
+  if (!text) return;
+  intentions.push(text);
+  input.value = "";
+  renderIntentions();
+}
+
+function removeIntention(i) {
+  intentions.splice(i, 1);
+  renderIntentions();
+}
+
+function renderIntentions() {
+  const list = document.getElementById("intentionList");
+  list.innerHTML = intentions.map((t, i) =>
+    `<li>${t}<button onclick="removeIntention(${i})">✕</button></li>`
+  ).join("");
+}
+
+// ── clear / load form ────────────────────────────────────────────────────────
+function clearForm() {
+  intentions = [];
+  renderIntentions();
+  document.getElementById("abidingSlider").value = 5;
+  document.getElementById("abidingVal").textContent = "5";
+  document.getElementById("reflection").value = "";
+  HABITS.forEach(h => {
+    habitDays[h] = new Set();
+    document.querySelectorAll(`#dots-${h} .day-dot`).forEach(d => d.classList.remove("on"));
+  });
+  FRUITS.forEach(f => { fruitRatings[f] = 0; setFruit(f, 0); });
+}
+
+function loadWeekIntoForm(week) {
+  document.getElementById("weekDate").value = week.weekDate || "";
+  const score = week.abidingScore || 5;
+  document.getElementById("abidingSlider").value = score;
+  document.getElementById("abidingVal").textContent = score;
+  document.getElementById("reflection").value = week.reflection || "";
+  intentions = Array.isArray(week.intentions) ? [...week.intentions] : [];
+  renderIntentions();
+  HABITS.forEach(h => {
+    habitDays[h] = new Set();
+    // stored as count; we just light up that many dots starting from Monday
+    const count = week[h] || 0;
+    for (let i = 0; i < count && i < 7; i++) habitDays[h].add(i);
+    document.querySelectorAll(`#dots-${h} .day-dot`).forEach((d, i) =>
+      d.classList.toggle("on", habitDays[h].has(i))
+    );
+  });
+  FRUITS.forEach(f => setFruit(f, week[f] || 0));
+  switchTabById("this-week");
+}
+
+function switchTabById(id) {
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.querySelectorAll("nav button").forEach((b, i) => {
+    const ids = ["this-week","pruning","progress","history"];
+    b.classList.toggle("active", ids[i] === id);
+  });
+  document.getElementById("view-"+id).classList.add("active");
+}
+
+// ── save week ────────────────────────────────────────────────────────────────
+async function saveWeek() {
+  const weekDate = document.getElementById("weekDate").value;
+  if (!weekDate) { alert("Please select a week date."); return; }
+  const entry = {
+    weekDate,
+    abidingScore: parseFloat(document.getElementById("abidingSlider").value),
+    reflection: document.getElementById("reflection").value,
+    intentions: [...intentions],
+  };
+  HABITS.forEach(h => { entry[h] = habitDays[h].size; });
+  FRUITS.forEach(f => { entry[f] = fruitRatings[f] || null; });
+
+  try {
+    const saved = await fetch("/api/weeks", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(entry),
+    }).then(r => r.json());
+    // update local cache
+    const idx = weeks.findIndex(w => w.weekDate === weekDate);
+    if (idx >= 0) weeks[idx] = saved; else weeks.unshift(saved);
+    showToast("Entry saved ✓");
+    renderAll();
+  } catch(e) {
+    alert("Save failed: " + e.message);
+  }
+}
+
+// ── pruning ───────────────────────────────────────────────────────────────────
+async function createPruning() {
+  const area = document.getElementById("pruningArea").value.trim();
+  if (!area) { alert("Please enter an area name."); return; }
+  const data = {
+    area,
+    status: "active",
+    notes: document.getElementById("pruningNotes").value,
+    startDate: document.getElementById("pruningStart").value || null,
+  };
+  try {
+    const created = await fetch("/api/pruning", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data),
+    }).then(r => r.json());
+    pruningAreas.unshift(created);
+    document.getElementById("pruningArea").value = "";
+    document.getElementById("pruningNotes").value = "";
+    renderPruning();
+    showToast("Area added ✓");
+  } catch(e) {
+    alert("Failed: " + e.message);
+  }
+}
+
+async function advancePruning(pageId, newStatus) {
+  try {
+    const updated = await fetch(`/api/pruning/${pageId}`, {
+      method: "PATCH",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({status: newStatus}),
+    }).then(r => r.json());
+    const idx = pruningAreas.findIndex(p => p.pageId === pageId);
+    if (idx >= 0) pruningAreas[idx] = updated;
+    renderPruning();
+  } catch(e) {
+    alert("Update failed: " + e.message);
+  }
+}
+
+function renderPruning() {
+  const groups = {active: [], growing: [], pruned: []};
+  pruningAreas.forEach(p => { (groups[p.status] || groups.active).push(p); });
+
+  ["active","growing","pruned"].forEach(status => {
+    const el = document.getElementById("pruning" + capitalize(status));
+    if (!groups[status].length) {
+      el.innerHTML = `<div class="empty">No ${status} areas</div>`;
+      return;
+    }
+    el.innerHTML = groups[status].map(p => `
+      <div class="pruning-card">
+        <div class="top">
+          <span class="area-name">${escHtml(p.area)}</span>
+          <span class="badge ${p.status}">${p.status}</span>
+          ${p.startDate ? `<span style="font-size:0.78rem;color:var(--text2);margin-left:auto;">${p.startDate}</span>` : ""}
+        </div>
+        ${p.notes ? `<div class="notes">${escHtml(p.notes)}</div>` : ""}
+        <div class="actions">
+          ${status === "active" ? `<button class="btn small green" onclick="advancePruning('${p.pageId}','growing')">→ Growing</button>` : ""}
+          ${status === "growing" ? `<button class="btn small" style="background:#1e2a3a;color:#6aaace;" onclick="advancePruning('${p.pageId}','pruned')">→ Pruned</button>` : ""}
+          ${status === "pruned" ? `<span style="font-size:0.8rem;color:var(--text2);">Completed 🌿</span>` : ""}
+        </div>
+      </div>
+    `).join("");
+  });
+}
+
+// ── radar chart ───────────────────────────────────────────────────────────────
+function renderRadar() {
+  const svg = document.getElementById("radarSvg");
+  if (!svg) return;
+  const size = 300, cx = 150, cy = 150, r = 110;
+  const n = FRUITS.length;
+  const avgs = FRUITS.map(f => {
+    const vals = weeks.map(w => w[f]).filter(v => v != null && v > 0);
+    return vals.length ? vals.reduce((a,b) => a+b, 0) / vals.length : 0;
+  });
+  const maxVal = 5;
+
+  // build polygon points
+  const pts = (scale) => FRUITS.map((_, i) => {
+    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    const val = avgs[i] / maxVal * scale;
+    return [cx + r * val * Math.cos(angle), cy + r * val * Math.sin(angle)];
+  });
+
+  let html = "";
+  // grid rings
+  [0.2,0.4,0.6,0.8,1].forEach(s => {
+    const ringPts = FRUITS.map((_, i) => {
+      const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+      return `${cx + r * s * Math.cos(angle)},${cy + r * s * Math.sin(angle)}`;
+    }).join(" ");
+    html += `<polygon points="${ringPts}" fill="none" stroke="#2e2e3e" stroke-width="1"/>`;
+  });
+  // axes
+  FRUITS.forEach((_, i) => {
+    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    html += `<line x1="${cx}" y1="${cy}" x2="${cx + r * Math.cos(angle)}" y2="${cy + r * Math.sin(angle)}" stroke="#2e2e3e" stroke-width="1"/>`;
+  });
+  // data polygon
+  if (avgs.some(a => a > 0)) {
+    const dataPts = pts(1).map(p => p.join(",")).join(" ");
+    html += `<polygon points="${dataPts}" fill="#7c6fcd44" stroke="#7c6fcd" stroke-width="2"/>`;
+  }
+  // labels
+  FRUITS.forEach((f, i) => {
+    const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
+    const lx = cx + (r + 20) * Math.cos(angle);
+    const ly = cy + (r + 20) * Math.sin(angle);
+    const anchor = Math.cos(angle) < -0.1 ? "end" : Math.cos(angle) > 0.1 ? "start" : "middle";
+    html += `<text x="${lx}" y="${ly + 4}" text-anchor="${anchor}" font-size="10" fill="#9090aa">${FRUIT_LABELS[f]}</text>`;
+  });
+  svg.innerHTML = html;
+}
+
+// ── correlation ───────────────────────────────────────────────────────────────
+function renderCorrelation() {
+  const tbody = document.querySelector("#corrTable tbody");
+  if (!tbody) return;
+  if (!weeks.length) { tbody.innerHTML = `<tr><td colspan="4" class="empty">No data yet</td></tr>`; return; }
+  const rows = HABITS.map(h => {
+    const high = weeks.filter(w => (w[h] || 0) >= 3 && w.abidingScore != null);
+    const low = weeks.filter(w => (w[h] || 0) < 3 && w.abidingScore != null);
+    const avgHigh = high.length ? (high.reduce((a,w) => a + w.abidingScore, 0) / high.length).toFixed(1) : "—";
+    const avgLow = low.length ? (low.reduce((a,w) => a + w.abidingScore, 0) / low.length).toFixed(1) : "—";
+    const diff = (avgHigh !== "—" && avgLow !== "—") ? (avgHigh - avgLow).toFixed(1) : "—";
+    const barW = diff !== "—" ? Math.max(0, Math.min(60, parseFloat(diff) * 12)) : 0;
+    return `<tr>
+      <td>${HABIT_LABELS[h]}</td>
+      <td>${avgHigh}</td>
+      <td>${avgLow}</td>
+      <td><span class="corr-bar" style="width:${barW}px"></span> ${diff !== "—" ? (diff > 0 ? "+" : "") + diff : "—"}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = rows.join("");
+}
+
+// ── trend line ────────────────────────────────────────────────────────────────
+function renderTrend() {
+  const svg = document.getElementById("trendSvg");
+  if (!svg) return;
+  const sorted = [...weeks].filter(w => w.abidingScore != null).sort((a,b) => a.weekDate.localeCompare(b.weekDate));
+  if (sorted.length < 2) {
+    svg.innerHTML = `<text x="50%" y="50%" text-anchor="middle" fill="#9090aa" font-size="13">Need at least 2 entries</text>`;
+    return;
+  }
+  const W = svg.clientWidth || 760, H = 180, pad = 32;
+  const scores = sorted.map(w => w.abidingScore);
+  const maxS = Math.max(...scores), minS = Math.min(...scores);
+  const range = maxS - minS || 1;
+  const toX = i => pad + (i / (sorted.length - 1)) * (W - 2 * pad);
+  const toY = s => H - pad - ((s - minS) / range) * (H - 2 * pad);
+  const pts = sorted.map((w, i) => `${toX(i)},${toY(w.abidingScore)}`).join(" ");
+  let html = `<polyline points="${pts}" fill="none" stroke="#7c6fcd" stroke-width="2"/>`;
+  sorted.forEach((w, i) => {
+    html += `<circle cx="${toX(i)}" cy="${toY(w.abidingScore)}" r="4" fill="#7c6fcd"/>
+    <title>${w.weekDate}: ${w.abidingScore}</title>`;
+  });
+  // y axis labels
+  [minS, (minS+maxS)/2, maxS].forEach(v => {
+    const y = toY(v);
+    html += `<text x="${pad-4}" y="${y+4}" text-anchor="end" font-size="10" fill="#9090aa">${v}</text>`;
+  });
+  svg.innerHTML = html;
+}
+
+// ── history table ─────────────────────────────────────────────────────────────
+function renderHistory() {
+  const tbody = document.querySelector("#historyTable tbody");
+  if (!tbody) return;
+  if (!weeks.length) { tbody.innerHTML = `<tr><td colspan="5" class="empty">No entries yet</td></tr>`; return; }
+  tbody.innerHTML = weeks.map(w => {
+    const totalHabits = HABITS.reduce((s, h) => s + (w[h] || 0), 0);
+    const fruitVals = FRUITS.map(f => w[f]).filter(v => v);
+    const avgFruit = fruitVals.length ? (fruitVals.reduce((a,b)=>a+b,0)/fruitVals.length).toFixed(1) : "—";
+    return `<tr style="cursor:pointer;" onclick="loadWeekIntoForm(weeks.find(x=>x.weekDate==='${w.weekDate}'))">
+      <td>${w.weekDate}</td>
+      <td>${w.abidingScore != null ? w.abidingScore : "—"}</td>
+      <td>${totalHabits} days</td>
+      <td>${avgFruit}</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(w.reflection || "")}</td>
+    </tr>`;
+  }).join("");
+}
+
+// ── utilities ─────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2500);
+}
+
+function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+</script>
+</body>
+</html>
