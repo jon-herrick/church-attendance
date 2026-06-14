@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project To-Do Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #f8fafc; color: #1e293b; min-height: 100vh; padding: 16px; }
+    .container { max-width: 860px; margin: 0 auto; }
+
+    /* Header */
+    .header { background: #1e293b; border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; color: white; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .header-left h1 { font-size: 22px; font-weight: 700; }
+    .header-left p { font-size: 13px; opacity: 0.6; margin-top: 4px; }
+    .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* Stats */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .stat { background: white; border-radius: 10px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .stat-val { font-size: 28px; font-weight: 700; }
+    .stat-label { font-size: 12px; color: #6b7280; margin-top: 4px; }
+
+    /* Cards */
+    .card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 16px; }
+    .card-title { font-weight: 700; font-size: 16px; color: #1e293b; margin-bottom: 4px; }
+    .card-sub { font-size: 13px; color: #6b7280; margin-bottom: 16px; }
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+
+    /* Session log */
+    .session-entry { border-left: 3px solid #6366f1; padding: 10px 14px; margin-bottom: 10px; background: #f8f9ff; border-radius: 0 8px 8px 0; }
+    .session-entry:last-child { margin-bottom: 0; }
+    .session-date { font-size: 11px; color: #6b7280; font-weight: 600; margin-bottom: 4px; }
+    .session-text { font-size: 13px; color: #1e293b; }
+    .session-project { font-size: 11px; color: #6366f1; font-weight: 600; margin-top: 4px; }
+
+    /* To-do cards */
+    .todo-list { display: flex; flex-direction: column; gap: 10px; }
+    .todo-card { border-radius: 8px; padding: 14px 16px; border: 1px solid #e5e7eb; background: white; transition: opacity 0.2s; }
+    .todo-card.done { opacity: 0.55; background: #f9fafb; }
+    .todo-card.blocked { border-color: #fca5a5; background: #fff7f7; }
+    .todo-card.in-progress { border-color: #93c5fd; background: #eff6ff; }
+    .todo-top { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
+    .todo-checkbox { width: 18px; height: 18px; border-radius: 4px; border: 2px solid #d1d5db; cursor: pointer; flex-shrink: 0; margin-top: 1px; appearance: none; background: white; }
+    .todo-checkbox:checked { background: #16a34a; border-color: #16a34a; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M13 4L6.5 11 3 7.5' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-size: 14px; background-position: center; background-repeat: no-repeat; }
+    .todo-body { flex: 1; min-width: 0; }
+    .todo-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; word-break: break-word; }
+    .todo-title.done-text { text-decoration: line-through; color: #9ca3af; }
+    .todo-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; color: #6b7280; }
+    .todo-context { font-size: 13px; color: #4b5563; background: #f9fafb; border-radius: 6px; padding: 6px 10px; margin-top: 8px; border-left: 3px solid #e5e7eb; }
+    .todo-context.in-progress { border-left-color: #3b82f6; }
+    .todo-context.blocked { border-left-color: #ef4444; }
+    .todo-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; align-items: center; }
+    .todo-actions select { font-size: 12px; padding: 4px 8px; border-radius: 6px; border: 1px solid #d1d5db; background: white; cursor: pointer; }
+    .todo-delete { font-size: 12px; color: #ef4444; cursor: pointer; background: none; border: none; padding: 4px 8px; border-radius: 6px; }
+    .todo-delete:hover { background: #fee2e2; }
+    .todo-edit-note { font-size: 12px; color: #6b7280; cursor: pointer; background: none; border: none; padding: 4px 8px; border-radius: 6px; }
+    .todo-edit-note:hover { background: #f3f4f6; }
+    .note-input-row { display: flex; gap: 6px; margin-top: 8px; }
+    .note-input-row input { flex: 1; font-size: 12px; padding: 5px 8px; border-radius: 6px; border: 1px solid #d1d5db; }
+
+    /* Badges */
+    .b { font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 600; display: inline-block; white-space: nowrap; }
+    .b-green { background: #dcfce7; color: #166534; }
+    .b-yellow { background: #fef9c3; color: #854d0e; }
+    .b-red { background: #fee2e2; color: #991b1b; }
+    .b-blue { background: #dbeafe; color: #1e40af; }
+    .b-purple { background: #ede9fe; color: #5b21b6; }
+    .b-gray { background: #f3f4f6; color: #374151; }
+    .b-orange { background: #ffedd5; color: #9a3412; }
+
+    /* Filters */
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+    .filters select { font-size: 13px; padding: 7px 12px; border-radius: 8px; border: 1px solid #d1d5db; background: white; cursor: pointer; }
+    .filter-label { font-size: 12px; font-weight: 600; color: #6b7280; }
+    .filter-clear { font-size: 12px; color: #6366f1; cursor: pointer; background: none; border: none; padding: 4px 8px; border-radius: 6px; }
+    .filter-clear:hover { background: #ede9fe; }
+
+    /* Add form */
+    .add-form { display: flex; flex-direction: column; gap: 12px; }
+    .form-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 140px; }
+    .field label { font-size: 12px; font-weight: 600; color: #374151; }
+    .field input, .field select, .field textarea { padding: 8px 12px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 13px; font-family: inherit; }
+    .field textarea { resize: vertical; min-height: 60px; }
+    .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,0.15); }
+    .field-full { min-width: 100%; }
+
+    /* Buttons */
+    .btn { padding: 9px 18px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 13px; }
+    .btn-primary { background: #1e293b; color: white; }
+    .btn-primary:hover { background: #0f172a; }
+    .btn-ghost { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); }
+    .btn-ghost:hover { background: rgba(255,255,255,0.25); }
+    .btn-sm { padding: 5px 12px; font-size: 12px; }
+
+    /* Empty state */
+    .empty { text-align: center; padding: 32px 16px; color: #9ca3af; font-size: 14px; }
+    .empty span { font-size: 28px; display: block; margin-bottom: 8px; }
+
+    /* Collapsible */
+    .collapsible-header { cursor: pointer; user-select: none; display: flex; justify-content: space-between; align-items: center; }
+    .collapsible-header .arrow { font-size: 12px; color: #9ca3af; transition: transform 0.2s; }
+    .collapsible-body { margin-top: 16px; }
+    .collapsed .collapsible-body { display: none; }
+    .collapsed .arrow { transform: rotate(-90deg); }
+
+    /* Group headers */
+    .group-label { font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; margin: 16px 0 8px; }
+    .group-label:first-child { margin-top: 0; }
+
+    /* Progress bar */
+    .progress-bar { height: 6px; background: #e5e7eb; border-radius: 3px; margin-top: 8px; overflow: hidden; }
+    .progress-fill { height: 100%; background: #16a34a; border-radius: 3px; transition: width 0.4s; }
+
+    /* Links */
+    a { color: #6366f1; text-decoration: none; font-size: 13px; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-left">
+      <h1>Project To-Do Dashboard</h1>
+      <p id="header-sub">Loading...</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-ghost btn-sm" onclick="toggleAddForm()">+ Add To-Do</button>
+      <button class="btn btn-ghost btn-sm" onclick="toggleSessionLog()">+ Log Session</button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats" id="stats-row"></div>
+
+  <!-- Add To-Do Form (hidden by default) -->
+  <div class="card" id="add-form-card" style="display:none; border: 2px solid #6366f1;">
+    <div class="card-title" style="color:#4f46e5;">Add New To-Do</div>
+    <div class="card-sub">Add a task from the current project work session.</div>
+    <div class="add-form">
+      <div class="form-row">
+        <div class="field field-full">
+          <label>Task Title *</label>
+          <input type="text" id="new-title" placeholder="What needs to be done?" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Project</label>
+          <select id="new-project">
+            <option value="Church Attendance">Church Attendance</option>
+            <option value="General">General</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Priority</label>
+          <select id="new-priority">
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="new-status">
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Blocked">Blocked</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field field-full">
+          <label>Context / Notes (optional)</label>
+          <textarea id="new-context" placeholder="Where did we leave off? What does this depend on? Any relevant links or file paths..."></textarea>
+        </div>
+      </div>
+      <div style="display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="addTodo()">Save To-Do</button>
+        <button class="btn" style="background:#e5e7eb;color:#374151;" onclick="toggleAddForm()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Log Session Form (hidden by default) -->
+  <div class="card" id="session-form-card" style="display:none; border: 2px solid #6366f1;">
+    <div class="card-title" style="color:#4f46e5;">Log Session Note</div>
+    <div class="card-sub">Record what was worked on so you can pick up where you left off.</div>
+    <div class="add-form">
+      <div class="form-row">
+        <div class="field">
+          <label>Project</label>
+          <select id="sess-project">
+            <option value="Church Attendance">Church Attendance</option>
+            <option value="General">General</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="field" style="min-width:200px">
+          <label>Date</label>
+          <input type="date" id="sess-date" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field field-full">
+          <label>What was worked on / where things stand *</label>
+          <textarea id="sess-text" rows="4" placeholder="Describe what was completed, what's in progress, and any important context for next time..."></textarea>
+        </div>
+      </div>
+      <div style="display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="addSession()">Save Note</button>
+        <button class="btn" style="background:#e5e7eb;color:#374151;" onclick="toggleSessionLog()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Session Log -->
+  <div class="card" id="session-card">
+    <div class="collapsible-header" onclick="toggleCollapse('session-card')">
+      <div>
+        <div class="card-title">Session Log</div>
+        <div class="card-sub" style="margin-bottom:0">Where we left off — most recent first.</div>
+      </div>
+      <span class="arrow">▼</span>
+    </div>
+    <div class="collapsible-body" id="session-log-body"></div>
+  </div>
+
+  <!-- To-Do List -->
+  <div class="card">
+    <div class="section-header">
+      <div>
+        <div class="card-title">To-Do List</div>
+        <div id="progress-text" class="card-sub" style="margin-bottom:0"></div>
+      </div>
+    </div>
+    <div id="progress-bar-wrap" style="margin-bottom:16px;">
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+
+    <div class="filters">
+      <span class="filter-label">Filter:</span>
+      <select id="filter-project" onchange="renderTodos()">
+        <option value="">All Projects</option>
+      </select>
+      <select id="filter-status" onchange="renderTodos()">
+        <option value="">All Statuses</option>
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Blocked">Blocked</option>
+        <option value="Done">Done</option>
+      </select>
+      <select id="filter-priority" onchange="renderTodos()">
+        <option value="">All Priorities</option>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+      <button class="filter-clear" onclick="clearFilters()">Clear filters</button>
+    </div>
+
+    <div id="todo-list"></div>
+  </div>
+
+</div>
+
+<script>
+// ─── STORAGE ─────────────────────────────────────────────────────────────────
+
+const STORAGE_KEY = 'project-todos-v1';
+const SESSION_KEY = 'project-sessions-v1';
+
+function load() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
+}
+function save(todos) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+}
+function loadSessions() {
+  try { return JSON.parse(localStorage.getItem(SESSION_KEY)) || []; } catch { return []; }
+}
+function saveSessions(sessions) {
+  localStorage.setItem(SESSION_KEY, JSON.stringify(sessions));
+}
+
+let todos = load();
+let sessions = loadSessions();
+let nextId = todos.length ? Math.max(...todos.map(t => t.id)) + 1 : 1;
+let nextSessId = sessions.length ? Math.max(...sessions.map(s => s.id)) + 1 : 1;
+
+// Seed with initial tasks if empty
+if (todos.length === 0) {
+  const seed = [
+    {
+      id: nextId++, title: "Add data persistence to church attendance app",
+      project: "Church Attendance", priority: "High", status: "Pending",
+      context: "Currently all data resets on page reload. Options: localStorage or export/import JSON. Decide on approach and implement.",
+      created: "2026-06-14", updated: "2026-06-14"
+    },
+    {
+      id: nextId++, title: "Add CSV/PDF export for attendance records",
+      project: "Church Attendance", priority: "Medium", status: "Pending",
+      context: "Pastoral staff need to export attendance data for reporting. Could be a simple CSV download from the History tab.",
+      created: "2026-06-14", updated: "2026-06-14"
+    },
+    {
+      id: nextId++, title: "Review and update seeded member list",
+      project: "Church Attendance", priority: "Low", status: "Pending",
+      context: "The current MEMBERS list in index.html uses placeholder names. Replace with real congregation data.",
+      created: "2026-06-14", updated: "2026-06-14"
+    }
+  ];
+  todos = seed;
+  save(todos);
+}
+
+if (sessions.length === 0) {
+  sessions = [
+    {
+      id: nextSessId++,
+      project: "Church Attendance",
+      date: "2026-06-14",
+      text: "Built initial pastoral care dashboard with tabs: Dashboard, Sunday Scan, Visitor Log, Follow-Up List, Attendance History. App is a single-file static HTML with in-memory data. Added project to-do tracker (this file). Next: decide on data persistence strategy."
+    }
+  ];
+  saveSessions(sessions);
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+
+const TODAY = new Date().toISOString().slice(0, 10);
+
+function badge(label, cls) {
+  return `<span class="b b-${cls}">${label}</span>`;
+}
+
+function priorityBadge(p) {
+  if (p === 'High') return badge('High', 'red');
+  if (p === 'Low') return badge('Low', 'gray');
+  return badge('Medium', 'yellow');
+}
+
+function statusBadge(s) {
+  if (s === 'Done') return badge('Done', 'green');
+  if (s === 'In Progress') return badge('In Progress', 'blue');
+  if (s === 'Blocked') return badge('Blocked', 'red');
+  return badge('Pending', 'gray');
+}
+
+function projectBadge(p) {
+  return badge(p, 'purple');
+}
+
+function allProjects() {
+  const set = new Set(todos.map(t => t.project));
+  sessions.forEach(s => set.add(s.project));
+  return [...set].sort();
+}
+
+function fmtDate(d) {
+  if (!d) return '';
+  const [y, m, day] = d.split('-');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[parseInt(m)-1]} ${parseInt(day)}, ${y}`;
+}
+
+// ─── STATS ────────────────────────────────────────────────────────────────────
+
+function renderStats() {
+  const total = todos.length;
+  const done = todos.filter(t => t.status === 'Done').length;
+  const inProgress = todos.filter(t => t.status === 'In Progress').length;
+  const blocked = todos.filter(t => t.status === 'Blocked').length;
+  const pending = todos.filter(t => t.status === 'Pending').length;
+
+  document.getElementById('stats-row').innerHTML = `
+    <div class="stat" style="border-top:4px solid #1e293b">
+      <div class="stat-val" style="color:#1e293b">${total}</div>
+      <div class="stat-label">Total Tasks</div>
+    </div>
+    <div class="stat" style="border-top:4px solid #3b82f6">
+      <div class="stat-val" style="color:#3b82f6">${inProgress}</div>
+      <div class="stat-label">In Progress</div>
+    </div>
+    <div class="stat" style="border-top:4px solid #d97706">
+      <div class="stat-val" style="color:#d97706">${pending}</div>
+      <div class="stat-label">Pending</div>
+    </div>
+    <div class="stat" style="border-top:4px solid #ef4444">
+      <div class="stat-val" style="color:#ef4444">${blocked}</div>
+      <div class="stat-label">Blocked</div>
+    </div>
+    <div class="stat" style="border-top:4px solid #16a34a">
+      <div class="stat-val" style="color:#16a34a">${done}</div>
+      <div class="stat-label">Done</div>
+    </div>`;
+
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = `${done} of ${total} tasks complete (${pct}%)`;
+
+  document.getElementById('header-sub').textContent =
+    `${total} task${total!==1?'s':''} · ${sessions.length} session${sessions.length!==1?'s':''} logged · Last updated: ${fmtDate(TODAY)}`;
+}
+
+// ─── SESSION LOG ─────────────────────────────────────────────────────────────
+
+function renderSessionLog() {
+  const body = document.getElementById('session-log-body');
+  if (sessions.length === 0) {
+    body.innerHTML = `<div class="empty"><span>📓</span>No sessions logged yet. Use "+ Log Session" to record where you left off.</div>`;
+    return;
+  }
+  const sorted = [...sessions].sort((a,b) => b.date.localeCompare(a.date) || b.id - a.id);
+  body.innerHTML = sorted.map(s => `
+    <div class="session-entry">
+      <div class="session-date">${fmtDate(s.date)}
+        <button onclick="deleteSession(${s.id})" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:11px;margin-left:8px;">✕ remove</button>
+      </div>
+      <div class="session-text">${escHtml(s.text)}</div>
+      <div class="session-project">${s.project}</div>
+    </div>`).join('');
+}
+
+// ─── TO-DO LIST ──────────────────────────────────────────────────────────────
+
+let editingNoteId = null;
+
+function renderTodos() {
+  updateProjectFilter();
+  const filterProject = document.getElementById('filter-project').value;
+  const filterStatus = document.getElementById('filter-status').value;
+  const filterPriority = document.getElementById('filter-priority').value;
+
+  let filtered = todos.filter(t => {
+    if (filterProject && t.project !== filterProject) return false;
+    if (filterStatus && t.status !== filterStatus) return false;
+    if (filterPriority && t.priority !== filterPriority) return false;
+    return true;
+  });
+
+  // Sort: in-progress first, then pending, then blocked, then done; within group by priority
+  const statusOrder = { 'In Progress': 0, 'Pending': 1, 'Blocked': 2, 'Done': 3 };
+  const priorityOrder = { 'High': 0, 'Medium': 1, 'Low': 2 };
+  filtered.sort((a, b) => {
+    const so = statusOrder[a.status] - statusOrder[b.status];
+    if (so !== 0) return so;
+    return priorityOrder[a.priority] - priorityOrder[b.priority];
+  });
+
+  const el = document.getElementById('todo-list');
+  if (filtered.length === 0) {
+    el.innerHTML = `<div class="empty"><span>✅</span>${todos.length === 0 ? 'No tasks yet. Add one above.' : 'No tasks match your filters.'}</div>`;
+    return;
+  }
+
+  // Group by status for display
+  const groups = {};
+  filtered.forEach(t => {
+    if (!groups[t.status]) groups[t.status] = [];
+    groups[t.status].push(t);
+  });
+  const groupOrder = ['In Progress', 'Pending', 'Blocked', 'Done'];
+
+  let html = '';
+  groupOrder.forEach(status => {
+    if (!groups[status]) return;
+    html += `<div class="group-label">${status} (${groups[status].length})</div>`;
+    html += `<div class="todo-list">`;
+    groups[status].forEach(t => {
+      const cardCls = t.status === 'Done' ? 'done' : t.status === 'Blocked' ? 'blocked' : t.status === 'In Progress' ? 'in-progress' : '';
+      const titleCls = t.status === 'Done' ? 'done-text' : '';
+      const showNoteInput = editingNoteId === t.id;
+      html += `
+        <div class="todo-card ${cardCls}" id="todo-${t.id}">
+          <div class="todo-top">
+            <input type="checkbox" class="todo-checkbox" ${t.status==='Done'?'checked':''} onchange="toggleDone(${t.id}, this.checked)" title="Mark done">
+            <div class="todo-body">
+              <div class="todo-title ${titleCls}">${escHtml(t.title)}</div>
+              <div class="todo-meta">
+                ${projectBadge(t.project)}
+                ${priorityBadge(t.priority)}
+                ${statusBadge(t.status)}
+                <span>Created ${fmtDate(t.created)}</span>
+                ${t.updated && t.updated !== t.created ? `<span>· Updated ${fmtDate(t.updated)}</span>` : ''}
+              </div>
+              ${t.context ? `<div class="todo-context ${cardCls}">💬 ${escHtml(t.context)}</div>` : ''}
+              ${showNoteInput ? `
+                <div class="note-input-row">
+                  <input id="note-input-${t.id}" value="${escAttr(t.context||'')}" placeholder="Add context / notes...">
+                  <button class="btn btn-primary btn-sm" onclick="saveNote(${t.id})">Save</button>
+                  <button class="btn btn-sm" style="background:#e5e7eb;color:#374151;" onclick="cancelNote()">Cancel</button>
+                </div>` : ''}
+              <div class="todo-actions">
+                <select onchange="changeStatus(${t.id}, this.value)" title="Change status">
+                  ${['Pending','In Progress','Blocked','Done'].map(s =>
+                    `<option value="${s}" ${t.status===s?'selected':''}>${s}</option>`
+                  ).join('')}
+                </select>
+                <button class="todo-edit-note" onclick="startEditNote(${t.id})">✏️ Notes</button>
+                <button class="todo-delete" onclick="deleteTodo(${t.id})">✕ Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    });
+    html += `</div>`;
+  });
+  el.innerHTML = html;
+}
+
+function updateProjectFilter() {
+  const sel = document.getElementById('filter-project');
+  const cur = sel.value;
+  const projects = allProjects();
+  sel.innerHTML = `<option value="">All Projects</option>` +
+    projects.map(p => `<option value="${p}" ${p===cur?'selected':''}>${p}</option>`).join('');
+}
+
+// ─── ACTIONS ─────────────────────────────────────────────────────────────────
+
+function toggleDone(id, checked) {
+  const t = todos.find(t => t.id === id);
+  if (!t) return;
+  t.status = checked ? 'Done' : 'Pending';
+  t.updated = TODAY;
+  save(todos);
+  renderTodos();
+  renderStats();
+}
+
+function changeStatus(id, status) {
+  const t = todos.find(t => t.id === id);
+  if (!t) return;
+  t.status = status;
+  t.updated = TODAY;
+  save(todos);
+  renderTodos();
+  renderStats();
+}
+
+function startEditNote(id) {
+  editingNoteId = id;
+  renderTodos();
+  const input = document.getElementById(`note-input-${id}`);
+  if (input) { input.focus(); input.select(); }
+}
+
+function saveNote(id) {
+  const t = todos.find(t => t.id === id);
+  const input = document.getElementById(`note-input-${id}`);
+  if (!t || !input) return;
+  t.context = input.value.trim();
+  t.updated = TODAY;
+  editingNoteId = null;
+  save(todos);
+  renderTodos();
+}
+
+function cancelNote() {
+  editingNoteId = null;
+  renderTodos();
+}
+
+function deleteTodo(id) {
+  if (!confirm('Delete this to-do?')) return;
+  todos = todos.filter(t => t.id !== id);
+  save(todos);
+  renderTodos();
+  renderStats();
+}
+
+function addTodo() {
+  const title = document.getElementById('new-title').value.trim();
+  if (!title) { document.getElementById('new-title').focus(); return; }
+  const todo = {
+    id: nextId++,
+    title,
+    project: document.getElementById('new-project').value,
+    priority: document.getElementById('new-priority').value,
+    status: document.getElementById('new-status').value,
+    context: document.getElementById('new-context').value.trim(),
+    created: TODAY,
+    updated: TODAY
+  };
+  todos.unshift(todo);
+  save(todos);
+  document.getElementById('new-title').value = '';
+  document.getElementById('new-context').value = '';
+  document.getElementById('new-status').value = 'Pending';
+  toggleAddForm();
+  renderTodos();
+  renderStats();
+}
+
+function addSession() {
+  const text = document.getElementById('sess-text').value.trim();
+  if (!text) { document.getElementById('sess-text').focus(); return; }
+  const sess = {
+    id: nextSessId++,
+    project: document.getElementById('sess-project').value,
+    date: document.getElementById('sess-date').value || TODAY,
+    text
+  };
+  sessions.unshift(sess);
+  saveSessions(sessions);
+  document.getElementById('sess-text').value = '';
+  toggleSessionLog();
+  renderSessionLog();
+  renderStats();
+}
+
+function deleteSession(id) {
+  if (!confirm('Remove this session note?')) return;
+  sessions = sessions.filter(s => s.id !== id);
+  saveSessions(sessions);
+  renderSessionLog();
+  renderStats();
+}
+
+function clearFilters() {
+  document.getElementById('filter-project').value = '';
+  document.getElementById('filter-status').value = '';
+  document.getElementById('filter-priority').value = '';
+  renderTodos();
+}
+
+// ─── UI TOGGLES ──────────────────────────────────────────────────────────────
+
+function toggleAddForm() {
+  const card = document.getElementById('add-form-card');
+  const visible = card.style.display !== 'none';
+  card.style.display = visible ? 'none' : 'block';
+  if (!visible) {
+    document.getElementById('new-title').focus();
+    document.getElementById('session-form-card').style.display = 'none';
+  }
+}
+
+function toggleSessionLog() {
+  const card = document.getElementById('session-form-card');
+  const visible = card.style.display !== 'none';
+  card.style.display = visible ? 'none' : 'block';
+  if (!visible) {
+    document.getElementById('sess-date').value = TODAY;
+    document.getElementById('sess-text').focus();
+    document.getElementById('add-form-card').style.display = 'none';
+  }
+}
+
+function toggleCollapse(cardId) {
+  document.getElementById(cardId).classList.toggle('collapsed');
+}
+
+// ─── SANITIZE ────────────────────────────────────────────────────────────────
+
+function escHtml(str) {
+  return String(str || '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function escAttr(str) {
+  return String(str || '').replace(/"/g,'&quot;');
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+
+renderStats();
+renderSessionLog();
+renderTodos();
+</script>
+</body>
+</html>
